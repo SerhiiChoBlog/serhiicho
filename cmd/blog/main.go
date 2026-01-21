@@ -2,30 +2,13 @@ package main
 
 import (
 	"fmt"
-	"net/http"
-
-	"github.com/textwire/textwire/v2"
-	"github.com/textwire/textwire/v2/config"
+	"serhii-go/internal/http"
 )
 
-var tpl *textwire.Template
-
 func main() {
-	var err error
+	serv := http.NewServer(":8080")
 
-	tpl, err = textwire.NewTemplate(&config.Config{
-		TemplateExt: ".tw",
-		DebugMode:   true,
-	})
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	http.HandleFunc("/", homeHandler)
-
-	fmt.Println("Server is running...")
-
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	if err := serv.ListenAndServe(); err != nil {
 		fmt.Println(err)
 	}
 }

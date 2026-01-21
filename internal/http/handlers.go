@@ -1,8 +1,6 @@
-package main
+package http
 
-import (
-	"net/http"
-)
+import "net/http"
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	err := tpl.Response(w, "home", map[string]any{})
