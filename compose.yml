@@ -1,0 +1,20 @@
+name: serhii-app
+
+services:
+    prod:
+        build:
+            context: .
+            dockerfile: Dockerfile.prod
+        image: serhii-prod
+        ports:
+            - 80:8080
+
+    dev:
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        image: serhii-dev
+        ports:
+            - 8080:8080
+        volumes:
+            - .:/app:Z

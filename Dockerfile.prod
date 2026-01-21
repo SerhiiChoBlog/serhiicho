@@ -1,0 +1,12 @@
+FROM golang:1.25-trixie
+
+RUN apt-get update && \
+    apt-get install -y
+
+WORKDIR /app
+
+COPY . .
+
+RUN go build ./cmd/blog
+
+ENTRYPOINT ["./blog"]
