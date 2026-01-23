@@ -1,0 +1,27 @@
+@import 'tailwindcss';
+@import 'sweetalert2/dist/sweetalert2.css';
+
+.swal2-popup {
+    @apply rounded-xl!;
+}
+
+.swal2-html-container {
+    @apply text-lg! lg:text-xl! leading-6;
+}
+
+.swal2-actions button {
+    @apply py-2 lg:py-3! px-6 lg:px-8! rounded-2xl! bg-main! transition-colors min-w-[140px]! uppercase;
+}
+
+.swal2-actions button:hover {
+    @apply bg-main-hover!;
+}
+
+.swal2-actions button:focus {
+    @apply shadow-none!;
+}
+
+button.swal2-cancel,
+button.swal2-deny {
+    @apply bg-red-500! hover:bg-red-600!;
+}

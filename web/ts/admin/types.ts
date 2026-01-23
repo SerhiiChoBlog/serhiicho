@@ -1,0 +1,1 @@
+export type UpdateBookField = 'title' | 'rate' | 'read_at'

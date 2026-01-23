@@ -1,0 +1,51 @@
+@import 'tailwindcss';
+
+.post-content blockquote {
+    @apply pt-[105px] sm:pt-6 sm:mr-10 sm:ml-[140px] p-6 bg-page-second relative border-none rounded-3xl;
+}
+
+.post-content blockquote p {
+    @apply leading-7 mb-5 font-post mt-0 text-font text-lg not-italic relative;
+}
+.post-content blockquote p:first-child::before,
+.post-content blockquote p:last-of-type::after {
+    @apply text-4xl text-gray-500 dark:text-gray-300 leading-0 inline-block translate-y-2;
+}
+
+.post-content blockquote h6 {
+    @apply not-italic opacity-80 leading-5 text-[.8em] text-font;
+}
+
+.post-content blockquote h6::before {
+    @apply content-['—'] mr-1 text-gray-500;
+}
+
+.post-content blockquote li {
+    @apply not-italic text-lg text-font;
+}
+
+.post-content blockquote p:first-child::before {
+    @apply content-['“'] mr-1.5;
+}
+
+.post-content blockquote p:last-of-type::after {
+    @apply content-['”'] ml-1.5;
+}
+
+.post-content blockquote img,
+.post-content blockquote::before {
+    @apply m-0 absolute w-[100px] h-[100px] rounded-full top-10 sm:top-1/2 left-1/2 sm:left-[-130px] -translate-x-1/2 sm:translate-x-0 -translate-y-1/2 border-4;
+}
+
+.post-content blockquote::before {
+    @apply content-[''] bg-page-second shadow-md print:shadow-none;
+}
+
+.post-content blockquote::after {
+    @apply content-none sm:content-[''] print:hidden border-r-20 border-r-page-second border-t-20 border-t-transparent border-b-20 border-b-transparent block absolute top-1/2 left-[-15px] w-0 h-0 -translate-y-1/2;
+}
+
+.post-content blockquote p::after,
+.post-content blockquote p::before {
+    @apply content-none;
+}

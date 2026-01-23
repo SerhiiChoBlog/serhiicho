@@ -1,0 +1,6 @@
+@import 'toastify-js/src/toastify.css';
+@import "../shared/main.css";
+
+.swal2-container {
+    z-index: 1700 !important;
+}

@@ -1,0 +1,25 @@
+@import 'tailwindcss';
+
+.project-content p code,
+.project-content ul li > code,
+.project-content ol li > code,
+.post-content p code,
+.post-content ul li > code,
+.post-content ol li > code {
+    @apply bg-inline-code rounded-md px-1 mx-1 my-0 font-light text-sm text-font before:content-none after:content-none inline-block break-all;
+}
+
+.project-content ul li,
+.project-content ol li,
+.post-content ul li,
+.post-content ol li {
+    @apply leading-7;
+}
+
+pre {
+    @apply break-inside-avoid print:mt-2 p-0! bg-transparent rounded-md relative;
+}
+
+code.hljs {
+    @apply font-code text-[.7rem] lg:text-[.8rem] rounded-xs pb-4 pt-6 px-4 lg:px-7 lg:pb-5 lg:pt-6 block leading-5 lg:leading-6;
+}

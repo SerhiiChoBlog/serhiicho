@@ -1,0 +1,10 @@
+@import 'tailwindcss';
+
+.navbar-link::before {
+    @apply bg-white rounded-full -bottom-1 content-[""] h-[3px] left-0 right-0 opacity-0 -translate-y-full absolute transition-all duration-300;
+}
+
+.navbar-link:hover::before,
+.navbar-link--active::before {
+    @apply opacity-100 text-main-light translate-y-0;
+}

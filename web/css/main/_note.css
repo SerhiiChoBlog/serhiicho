@@ -1,0 +1,31 @@
+@import 'tailwindcss';
+
+.note,
+.tip {
+    @apply px-5 pb-5 pt-7 rounded-md leading-7 text-lg relative font-main! mt-10!;
+}
+
+.tip a,
+.note a,
+.tip strong,
+.note strong {
+    @apply text-font dark:text-gray-100;
+}
+
+.note::before,
+.tip::before {
+    @apply absolute w-28 -top-3 -left-2 text-lg font-main font-bold rounded-md text-white flex justify-center items-center uppercase;
+}
+
+.tip {
+    @apply bg-[#e6f5fc] dark:bg-[#344c54] text-[#06303d] dark:text-[#e7eff2] before:content-['tip'] before:bg-[#5384a0] dark:before:bg-[#638499];
+}
+
+.note {
+    @apply bg-[#f7f4dc] dark:bg-[#464a2f] text-[#3d3506] dark:text-[#efecdc] before:content-['note'] before:bg-[#d8cf6b] dark:before:bg-[rgb(136,134,69)];
+}
+
+.tip .d-none,
+.note .d-none {
+    @apply hidden;
+}
