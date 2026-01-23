@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Start the ssh-agent
+eval $(ssh-agent)
+
+# Add the SSH key
+ssh-add ~/.ssh/id_serhii_github
+
+git pull

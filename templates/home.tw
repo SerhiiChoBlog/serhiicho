@@ -1,8 +1,32 @@
-@use("layouts/main")
+@use("~main")
 
 @insert("title", "Serhii Cho")
 
 @insert("content")
-    <h1>Hello, World!</h1>
-    <p>This is a home page.</p>
+    @component("~hero", {
+        navbar: "text-white",
+        class: "relative bg-home-hero bg-cover shadow-lg",
+    })
+        @slot
+            <div>
+                <div class="relative z-10 text-center pt-20 pb-32">
+                    <h1 class="text-2xl lg:text-4xl" aria-label="Serhii Cho">
+                        <span class="text-white drop-shadow-md uppercase">
+                            \{{ config('app.name') }}
+                        </span>
+                    </h1>
+
+                    <h2 class="text-white text-md lg:text-2xl mt-2 mx-4 leading-5 md:tracking-wide drop-shadow-md mb-3">
+                        Blog about web development and coding
+                    </h2>
+
+                    <search>
+                        <div class="min-h-[44px] lg:min-h-[60px]"></div>
+                    </search>
+
+                    <x-home.read-blog-button/>
+                </div>
+            </div>
+        @end
+    @end
 @end

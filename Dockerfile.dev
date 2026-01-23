@@ -1,16 +1,19 @@
 FROM golang:1.25-trixie
 
-RUN apt-get update && \
-    apt-get install -y
+RUN apt-get update
+
+RUN apt-get install -y \
+        nodejs \
+        npm && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
 COPY go.* ./
+COPY package.* ./
 
-RUN go mod download
+RUN go mod download && npm i
 
 COPY . .
 
-RUN go install github.com/gravityblast/fresh@latest
-
-CMD ["fresh"]
+CMD ["go", "run", "./cmd/blog"]

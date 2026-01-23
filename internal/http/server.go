@@ -11,22 +11,26 @@ import (
 var tpl *textwire.Template
 
 type server struct {
-	addr string // like :8080
+}
+
+func NewServer() server {
+	return server{}
 }
 
 // addr like :8080
-func NewServer(addr string) server {
-	return server{addr}
-}
-
-func (s *server) ListenAndServe() error {
+func (s *server) ListenAndServe(addr string) error {
 	initTextwire()
 
+	s.registerRoutes()
+
+	fmt.Println("Server is running on", addr)
+
+	return http.ListenAndServe(addr, nil)
+}
+
+func (s *server) registerRoutes() {
 	http.HandleFunc("/", homeHandler)
-
-	fmt.Println("Server is running...")
-
-	return http.ListenAndServe(s.addr, nil)
+	http.HandleFunc("/about", aboutHandler)
 }
 
 func initTextwire() {

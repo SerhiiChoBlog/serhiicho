@@ -2,13 +2,13 @@ package main
 
 import (
 	"fmt"
-	"serhii-go/internal/http"
+	"serhii/internal/http"
 )
 
 func main() {
-	serv := http.NewServer(":8080")
+	serv := http.NewServer()
 
-	if err := serv.ListenAndServe(); err != nil {
+	if err := serv.ListenAndServe(":8080"); err != nil {
 		fmt.Println(err)
 	}
 }

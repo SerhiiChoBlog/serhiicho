@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "target": "ES2018",
+        "module": "es2022",
+        "moduleResolution": "Node",
+        "lib": ["es2021", "dom", "WebWorker"],
+        "sourceMap": true,
+        "removeComments": true,
+        "noEmitOnError": true,
+        "strict": true,
+        "noImplicitAny": false,
+        "paths": {
+            "@/*": ["./web/ts/main/*"],
+            "@admin/*": ["./web/ts/admin/*"],
+            "@user/*": ["./web/ts/user/*"],
+            "@shared/*": ["./web/ts/shared/*"]
+        },
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true
+    }
+}
