@@ -23,7 +23,7 @@
     --color-main-dark: var(--color-main-dark);
     --color-inline-code: var(--color-inline-code);
 
-    --background-image-home-hero: url(/storage/hero.svg);
+    --background-image-home-hero: url(../../storage/hero.svg);
 
     --animate-blink: blink 800ms linear infinite;
 

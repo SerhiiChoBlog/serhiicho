@@ -6,13 +6,15 @@
     @component("~hero", {
         navbar: "text-white",
         class: "relative bg-home-hero bg-cover shadow-lg",
+        mainTitle: false,
+        subtitle: false,
     })
         @slot
             <div>
                 <div class="relative z-10 text-center pt-20 pb-32">
                     <h1 class="text-2xl lg:text-4xl" aria-label="Serhii Cho">
                         <span class="text-white drop-shadow-md uppercase">
-                            \{{ config('app.name') }}
+                            {{ appName }}
                         </span>
                     </h1>
 
@@ -24,7 +26,15 @@
                         <div class="min-h-[44px] lg:min-h-[60px]"></div>
                     </search>
 
-                    <x-home.read-blog-button/>
+                    <div class="mt-4 lg:mt-6 left-0 right-0 text-center">
+                        <a
+                            href="/posts"
+                            class="inline-flex items-center px-7 lg:px-10 py-2 lg:py-3 text-white rounded-full text-md lg:text-lg border uppercase transition-transform hover:scale-105"
+                        >
+                            <span>Read blog</span>
+                            @component("~icons/arrow-right", { class: "w-6 h-6 inline-block ml-2" })
+                        </a>
+                    </div>
                 </div>
             </div>
         @end

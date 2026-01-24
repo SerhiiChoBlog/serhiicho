@@ -4,8 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@reserve("title")</title>
+    
+    @if (env == "development")
+        <script type="module" src="http://localhost:5173/@vite/client"></script>
+        <script type="module" src="http://localhost:5173/web/ts/main/app.ts"></script>
+        <link rel="stylesheet" href="http://localhost:5173/web/css/main/app.css">
+    @else
+        TODO here
+    @end
 </head>
 <body>
-    @reserve("content")
+    <main id="main">
+        @reserve("content")
+    </main>
+
+    <script type="text/javascript">
+        window.Auth = null
+    </script>
 </body>
 </html>
