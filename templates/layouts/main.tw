@@ -6,7 +6,7 @@
         @slot('description')@reserve("description", "Serhii's blog is a great place to learn about web development. If you are eager to learn how to build optimized, responsive and modern web")@end
     @end
 </head>
-<body class="text-font font-main bg-page">
+<body class="text-font font-main bg-page {{ global.darkThemeCookie }}">
     <main id="main">@reserve("content")</main>
 
     <script type="text/javascript">

@@ -39,7 +39,8 @@ func initTextwire() {
 	twConf := &config.Config{
 		DebugMode: true,
 		GlobalData: map[string]any{
-			"env": os.Getenv("APP_ENV"),
+			"env":             os.Getenv("APP_ENV"),
+			"darkThemeCookie": "dark",
 			"manifest": map[string]string{
 				"js":  "",
 				"css": "",
