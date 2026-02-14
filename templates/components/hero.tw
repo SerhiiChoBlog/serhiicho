@@ -3,13 +3,13 @@
         <navbar theme="system"></navbar>
     </div>
 
-    <div class="{{ mainTitle && subtitle ? 'px-5 pt-5 pb-16 lg:pt-10 lg:pb-20' : '' }}">
+    <div class="{{ defined(mainTitle, subtitle) ? 'px-5 pt-5 pb-16 lg:pt-10 lg:pb-20' : '' }}">
         <div class="text-center max-w-5xl mx-auto z-10 relative">
-            @if(mainTitle)
+            @if(defined(mainTitle))
                 <h1 class="text-2xl lg:text-3xl mb-2">{{ mainTitle.raw() }}</h1>
             @end
 
-            @if(subtitle)
+            @if(defined(subtitle))
                 <h2 class="text-md lg:text-xl">{{ subtitle.raw() }}</h2>
             @end
         </div>

@@ -1,0 +1,17 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Serhii Cho">
+<meta name="description" content="@slot('description')">
+<meta property="og:locale" content="en_US">
+<meta name="darkreader-lock">
+<link rel="icon" href="favicon.png" type="image/png" sizes="50x50" />
+<title>@slot('title')</title>
+
+@if(global.env == "development")
+    <script type="module" src="http://localhost:5173/@vite/client"></script>
+    <script type="module" src="http://localhost:5173/web/ts/main/app.ts"></script>
+    <link rel="stylesheet" href="http://localhost:5173/web/css/main/app.css">
+@elseif(global.manifest.css && global.manifest.js)
+    <link rel="stylesheet" href="/build/{{ global.manifest.css }}">
+    <script type="module" src="/build/{{ global.manifest.js }}"></script>
+@end

@@ -1,22 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@reserve("title")</title>
-    
-    @if (env == "development")
-        <script type="module" src="http://localhost:5173/@vite/client"></script>
-        <script type="module" src="http://localhost:5173/web/ts/main/app.ts"></script>
-        <link rel="stylesheet" href="http://localhost:5173/web/css/main/app.css">
-    @else
-        TODO here
+    @component('~partials/head')
+        @slot('title')@reserve('title', 'Blog for developers')@end
+        @slot('description')@reserve("description", "Serhii's blog is a great place to learn about web development. If you are eager to learn how to build optimized, responsive and modern web")@end
     @end
 </head>
-<body>
-    <main id="main">
-        @reserve("content")
-    </main>
+<body class="text-font font-main bg-page">
+    <main id="main">@reserve("content")</main>
 
     <script type="text/javascript">
         window.Auth = null

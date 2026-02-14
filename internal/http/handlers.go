@@ -16,7 +16,9 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func aboutHandler(w http.ResponseWriter, r *http.Request) {
-	err := tpl.Response(w, "about", map[string]any{})
+	err := tpl.Response(w, "about", map[string]any{
+		"technologies": []string{},
+	})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}

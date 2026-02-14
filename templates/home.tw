@@ -6,8 +6,6 @@
     @component("~hero", {
         navbar: "text-white",
         class: "relative bg-home-hero bg-cover shadow-lg",
-        mainTitle: false,
-        subtitle: false,
     })
         @slot
             <div>

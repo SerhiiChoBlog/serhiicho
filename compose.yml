@@ -7,15 +7,21 @@ services:
             dockerfile: Dockerfile.prod
         image: serhii-prod
         ports:
-            - 80:8080
+            - 8080:8080
 
     dev:
         build:
             context: .
             dockerfile: Dockerfile.dev
         image: serhii-dev
+        environment:
+            - GOSUMDB=off
         ports:
             - 8080:8080
             - 5173:5173
         volumes:
             - .:/app:Z
+            - go-data:/go/pkg/mod:Z
+
+volumes:
+  go-data:

@@ -2,10 +2,12 @@ package http
 
 import (
 	"fmt"
+	"log"
 	"net/http"
+	"os"
 
-	"github.com/textwire/textwire/v2"
-	"github.com/textwire/textwire/v2/config"
+	"github.com/textwire/textwire/v3"
+	"github.com/textwire/textwire/v3/config"
 )
 
 var tpl *textwire.Template
@@ -30,18 +32,24 @@ func (s *server) ListenAndServe(addr string) error {
 
 func (s *server) registerRoutes() {
 	http.HandleFunc("/", homeHandler)
-	http.HandleFunc("/about", aboutHandler)
+	http.HandleFunc("/about-me", aboutHandler)
 }
 
 func initTextwire() {
 	twConf := &config.Config{
-		TemplateExt: ".tw",
-		DebugMode:   true,
+		DebugMode: true,
+		GlobalData: map[string]any{
+			"env": os.Getenv("APP_ENV"),
+			"manifest": map[string]string{
+				"js":  "",
+				"css": "",
+			},
+		},
 	}
 
 	twTpl, err := textwire.NewTemplate(twConf)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 
 	tpl = twTpl
