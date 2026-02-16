@@ -2,12 +2,10 @@ package http
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 
 	"github.com/textwire/textwire/v3"
-	"github.com/textwire/textwire/v3/config"
 )
 
 type server struct {
@@ -18,7 +16,7 @@ type server struct {
 func NewServer() server {
 	return server{
 		mux: http.NewServeMux(),
-		tpl: initTextwire(),
+		tpl: newTpl(),
 	}
 }
 
@@ -49,28 +47,4 @@ func (s *server) servePublic(pattern, pubDir string) {
 
 		http.NotFound(w, r)
 	}))
-}
-
-func initTextwire() *textwire.Template {
-	isDev := os.Getenv("APP_ENV") == "development"
-
-	twConf := &config.Config{
-		DebugMode:   isDev,
-		FileWatcher: isDev,
-		GlobalData: map[string]any{
-			"env":             os.Getenv("APP_ENV"),
-			"darkThemeCookie": "dark",
-			"manifest": map[string]string{
-				"js":  "",
-				"css": "",
-			},
-		},
-	}
-
-	tpl, err := textwire.NewTemplate(twConf)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return tpl
 }

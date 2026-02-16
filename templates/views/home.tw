@@ -12,7 +12,7 @@
                 <div class="relative z-10 text-center pt-20 pb-32">
                     <h1 class="text-2xl lg:text-4xl" aria-label="Serhii Cho">
                         <span class="text-white drop-shadow-md uppercase">
-                            {{ appName }}
+                            {{ global.appName }}
                         </span>
                     </h1>
 
