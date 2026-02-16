@@ -60,8 +60,8 @@
                             <div>
                                 <figure>
                                     <img
-                                        data-src="/{{ tech['image'] }}"
-                                        alt="{{ tech['title'] }}"
+                                        data-src="/{{ tech.image }}"
+                                        alt="{{ tech.title }}"
                                         class="w-auto h-[130px] print:h-auto print:max-w-[50px] mx-auto drop-shadow-md pointer-events-none select-none"
                                         width="200"
                                         height="200"
@@ -69,8 +69,8 @@
                                 </figure>
                             </div>
                             <div class="p-3 text-center">
-                                <div class="text-2xl py-4">{{ tech['title'] }}</div>
-                                <div class="text-lg font-light">{{ tech['content'].raw() }}</div>
+                                <div class="text-2xl py-4">{{ tech.title }}</div>
+                                <div class="text-lg font-light">{{ tech.content.raw() }}</div>
                             </div>
                         </div>
                     @end

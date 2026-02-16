@@ -10,34 +10,53 @@ import (
 	"github.com/textwire/textwire/v3/config"
 )
 
-var tpl *textwire.Template
-
 type server struct {
+	mux *http.ServeMux
+	tpl *textwire.Template
 }
 
 func NewServer() server {
-	return server{}
+	return server{
+		mux: http.NewServeMux(),
+		tpl: initTextwire(),
+	}
 }
 
-// addr like :8080
 func (s *server) ListenAndServe(addr string) error {
-	initTextwire()
+	s.servePublic("GET /", "./public")
+	s.mux.HandleFunc("GET /about-me", s.aboutHandler)
 
-	s.registerRoutes()
+	fmt.Printf("Server is running on http://localhost%s\n", addr)
 
-	fmt.Println("Server is running on", addr)
-
-	return http.ListenAndServe(addr, nil)
+	return http.ListenAndServe(addr, s.mux)
 }
 
-func (s *server) registerRoutes() {
-	http.HandleFunc("/", homeHandler)
-	http.HandleFunc("/about-me", aboutHandler)
+func (s *server) servePublic(pattern, pubDir string) {
+	fileServer := http.FileServer(http.Dir(pubDir))
+
+	s.mux.Handle(pattern, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		path := pubDir + r.URL.Path
+		info, err := os.Stat(path)
+		if err == nil && !info.IsDir() {
+			fileServer.ServeHTTP(w, r)
+			return
+		}
+
+		if r.URL.Path == "/" {
+			s.homeHandler(w, r)
+			return
+		}
+
+		http.NotFound(w, r)
+	}))
 }
 
-func initTextwire() {
+func initTextwire() *textwire.Template {
+	isDev := os.Getenv("APP_ENV") == "development"
+
 	twConf := &config.Config{
-		DebugMode: true,
+		DebugMode:   isDev,
+		FileWatcher: isDev,
 		GlobalData: map[string]any{
 			"env":             os.Getenv("APP_ENV"),
 			"darkThemeCookie": "dark",
@@ -48,10 +67,10 @@ func initTextwire() {
 		},
 	}
 
-	twTpl, err := textwire.NewTemplate(twConf)
+	tpl, err := textwire.NewTemplate(twConf)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	tpl = twTpl
+	return tpl
 }

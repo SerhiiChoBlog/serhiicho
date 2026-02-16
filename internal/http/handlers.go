@@ -1,25 +1,28 @@
 package http
 
 import (
+	"log"
 	"net/http"
 	"os"
 )
 
-func homeHandler(w http.ResponseWriter, r *http.Request) {
-	err := tpl.Response(w, "home", map[string]any{
+func (s *server) homeHandler(w http.ResponseWriter, r *http.Request) {
+	data := map[string]any{
 		"appName": os.Getenv("APP_NAME"),
 		"env":     os.Getenv("APP_ENV"),
-	})
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+
+	if err := s.tpl.Response(w, "views/home", data); err != nil {
+		log.Println(err)
 	}
 }
 
-func aboutHandler(w http.ResponseWriter, r *http.Request) {
-	err := tpl.Response(w, "about", map[string]any{
+func (s *server) aboutHandler(w http.ResponseWriter, r *http.Request) {
+	data := map[string]any{
 		"technologies": []string{},
-	})
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+
+	if err := s.tpl.Response(w, "views/about-me", data); err != nil {
+		log.Println(err)
 	}
 }
