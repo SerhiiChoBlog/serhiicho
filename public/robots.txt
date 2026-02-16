@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Sitemap: https://serhiicho.com/sitemap.xml
+Disallow: /subscriptions/*
+Disallow: /fo-verify.html
