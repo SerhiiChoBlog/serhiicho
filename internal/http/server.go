@@ -4,19 +4,22 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"serhii/internal/config"
 
 	"github.com/textwire/textwire/v3"
 )
 
 type server struct {
-	mux *http.ServeMux
-	tpl *textwire.Template
+	mux  *http.ServeMux
+	tpl  *textwire.Template
+	conf *config.Config
 }
 
-func NewServer() server {
+func NewServer(conf *config.Config) server {
 	return server{
-		mux: http.NewServeMux(),
-		tpl: newTpl(),
+		mux:  http.NewServeMux(),
+		tpl:  newTpl(),
+		conf: conf,
 	}
 }
 
@@ -24,9 +27,9 @@ func (s *server) ListenAndServe(addr string) error {
 	s.servePublic("GET /", "./public")
 	s.mux.HandleFunc("GET /about-me", s.aboutHandler)
 
-	fmt.Printf("Server is running on http://localhost%s\n", addr)
+	fmt.Printf("Server is running on http://localhost:%s\n", addr)
 
-	return http.ListenAndServe(addr, s.mux)
+	return http.ListenAndServe(":"+addr, s.mux)
 }
 
 func (s *server) servePublic(pattern, pubDir string) {

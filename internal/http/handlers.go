@@ -15,7 +15,7 @@ func (s *server) homeHandler(w http.ResponseWriter, _ *http.Request) {
 
 func (s *server) aboutHandler(w http.ResponseWriter, _ *http.Request) {
 	data := map[string]any{
-		"technologies": []string{},
+		"technologies": s.conf.Technologies,
 	}
 
 	if err := s.tpl.Response(w, "views/about-me", data); err != nil {

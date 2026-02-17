@@ -2,9 +2,11 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
+	"serhii/internal/config"
 	"serhii/internal/http"
 	"strings"
 )
@@ -14,9 +16,13 @@ func main() {
 		log.Fatalf("unable to load .env file: %e", err)
 	}
 
-	serv := http.NewServer()
+	conf, err := loadConfig()
+	if err != nil {
+		log.Fatalln(err)
+	}
 
-	if err := serv.ListenAndServe(":8080"); err != nil {
+	serv := http.NewServer(conf)
+	if err := serv.ListenAndServe(os.Getenv("APP_PORT")); err != nil {
 		fmt.Println(err)
 	}
 }
@@ -44,4 +50,19 @@ func loadEnv() error {
 	}
 
 	return scanner.Err()
+}
+
+func loadConfig() (*config.Config, error) {
+	f, err := os.Open("./config/config.json")
+	if err != nil {
+		return nil, fmt.Errorf("Cannot open config.json file: %v", err)
+	}
+
+	conf := new(config.Config)
+	decoder := json.NewDecoder(f)
+	if err := decoder.Decode(conf); err != nil {
+		return nil, fmt.Errorf("Json Encoder error: %v", err)
+	}
+
+	return conf, nil
 }
