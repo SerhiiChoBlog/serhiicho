@@ -11,4 +11,4 @@ RUN apt-get update && apt-get install -y curl \
 COPY go.mod go.sum* ./
 RUN go mod download
 
-CMD ["go", "run", "./cmd/blog"]
+CMD ["tail", "-f", "/dev/null"]

@@ -1,0 +1,34 @@
+<div class="flex flex-wrap opacity-70 print:justify-center items-center gap-2.5 {{ defined(class) ? class : '' }}">
+    <time aria-label="Post published date" datetime="{{ post.createdAt }}" class="text-sm">
+        {{ post.prettyCreatedAt }}
+    </time>
+
+    @if(defined(post.readTime) && post.readTime > 0)
+        @component('~post/detail', { ariaLabel: 'Minutes to read' })
+            @slot
+                @component('~icons/book', { class: 'w-4 h-4' })
+                {{ post.readTime }} min
+            @end
+        @end
+    @end
+
+    @if(defined(post.postViewsCount) && post.postViewsCount && post.postViewsCount > 0)
+        @component('~post/detail', { ariaLabel: 'Post views' })
+            @slot
+                @component('~icons/views', { class: 'w-4 h-4' })
+                {{ post.postViewsCount }} views
+            @end
+        @end
+    @end
+
+    @if(defined(post.commentsCount) && post.commentsCount && post.commentsCount > 0)
+        @component('~post/detail', { ariaLabel: 'Post comments amount' })
+            @slot
+                @component('~icons/comment', { class: 'w-4 h-4' })
+                {{ post.commentsCount }}
+            @end
+        @end
+    @end
+
+    @slot
+</div>

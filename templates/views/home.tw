@@ -38,7 +38,17 @@
         @end
     @end
 
-    <section>
-    @dump(latest)
-    </section>
+    @component('~home/section', {
+        title: "The latest articles",
+        intro: "The most recent articles",
+        isDark: false,
+    })
+        @slot
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6 max-w-6xl mx-auto">
+                @each(post in latest)
+                    @component('~posts/horizontal', { post })
+                @end
+            </div>
+        @end
+    @end
 @end

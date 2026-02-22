@@ -7,8 +7,10 @@ services:
             - '5173:5173'
         volumes:
             - .:/app:z
+            - /home/serhii/www/open/textwire/textwire:/textwire:z
         depends_on:
-            - db
+            db:
+                condition: service_healthy
 
     db:
         image: mysql:8.0
@@ -25,6 +27,12 @@ services:
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
         volumes:
             - serhiicho-db:/var/lib/mysql:z
+        healthcheck:
+            test:
+                - CMD
+                - mysqladmin
+                - ping
+                - "-p${DB_PASSWORD}"
         networks:
             - internal
 

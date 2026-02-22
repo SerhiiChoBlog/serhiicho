@@ -4,3 +4,11 @@ github.com/go-sql-driver/mysql v1.9.3 h1:U/N249h2WzJ3Ukj8SowVFjdtZKfu9vlLZxjPXV1
 github.com/go-sql-driver/mysql v1.9.3/go.mod h1:qn46aNg1333BRMNU69Lq93t8du/dwxI64Gl8i5p1WMU=
 github.com/textwire/textwire/v3 v3.2.1 h1:9VxbcUy0p34+SYLURyKbCx8ZpbMtMrlMUGKR+mWbkQA=
 github.com/textwire/textwire/v3 v3.2.1/go.mod h1:GXDm8iNiwU5pf55GLz5FyRIsZnktpYm9/wEuQv4Lq0Y=
+github.com/textwire/textwire/v3 v3.2.2 h1:tniz5q5WCxyOY4OYHUVrS1PN0ukkjlbcBI6YuQQODxc=
+github.com/textwire/textwire/v3 v3.2.2/go.mod h1:GXDm8iNiwU5pf55GLz5FyRIsZnktpYm9/wEuQv4Lq0Y=
+github.com/textwire/textwire/v3 v3.2.3 h1:FjVJT7hfS678VqWZB2oG+qBD4xFIMmCrhtK38t+72g4=
+github.com/textwire/textwire/v3 v3.2.3/go.mod h1:GXDm8iNiwU5pf55GLz5FyRIsZnktpYm9/wEuQv4Lq0Y=
+github.com/textwire/textwire/v3 v3.2.4 h1:POqvpk7nLrXBILO0OBN+OiH5xb2d73hA6pfGc3S6IPg=
+github.com/textwire/textwire/v3 v3.2.4/go.mod h1:GXDm8iNiwU5pf55GLz5FyRIsZnktpYm9/wEuQv4Lq0Y=
+github.com/textwire/textwire/v3 v3.2.5 h1:P9P9lrSw/qCnj1D0bMX0Y3MqRKO+MRZcwEWrkfrprvY=
+github.com/textwire/textwire/v3 v3.2.5/go.mod h1:GXDm8iNiwU5pf55GLz5FyRIsZnktpYm9/wEuQv4Lq0Y=

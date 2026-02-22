@@ -2,7 +2,6 @@ package mysql
 
 import (
 	"database/sql"
-	"fmt"
 	"serhii/internal/model"
 	"time"
 )
@@ -62,10 +61,6 @@ func (p *Post) Latest() ([]*model.Post, error) {
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
-
-	fmt.Printf("-------> posts %#v\n", posts)
-	fmt.Printf("-------> post[0] %#v\n", posts[0])
-	fmt.Printf("-------> post[1] %#v\n", posts[1])
 
 	return posts, nil
 }

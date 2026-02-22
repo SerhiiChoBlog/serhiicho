@@ -1,0 +1,3 @@
+<span aria-label="{{ ariaLabel }}" class="flex items-center gap-1 text-sm">
+    @slot
+</span>

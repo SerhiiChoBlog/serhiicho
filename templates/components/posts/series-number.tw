@@ -1,0 +1,10 @@
+{{ seriesItem = post.series.len() > 0 ? post.series[0] : nil }}
+
+@if(seriesItem && seriesItem.postsCount && seriesItem.postsCount > 1)
+    <a
+        href="/series/{{ seriesItem.slug }}"
+        class="opacity-60 font-bold"
+    >
+        Part {{ seriesItem.pivot.part }} of {{ seriesItem.postsCount }}
+    </a>
+@end

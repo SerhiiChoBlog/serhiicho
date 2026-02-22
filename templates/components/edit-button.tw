@@ -1,0 +1,8 @@
+@if(defined(auth, url))
+    <a
+        href="{{ url }}"
+        class="transition-opacity opacity-70 hover:opacity-100 text-xs {{ defined(class) ? class : '' }}"
+    >
+        EDIT
+    </a>
+@end
