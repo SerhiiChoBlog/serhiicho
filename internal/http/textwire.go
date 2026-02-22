@@ -17,7 +17,7 @@ func newTpl() *textwire.Template {
 		GlobalData: map[string]any{
 			"env":             os.Getenv("APP_ENV"),
 			"appName":         os.Getenv("APP_NAME"),
-			"darkThemeCookie": "dark",
+			"darkThemeCookie": "", // dark
 			"manifest": map[string]string{
 				"js":  "",
 				"css": "",
