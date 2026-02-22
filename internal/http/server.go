@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"serhii/internal/config"
+	"serhii/internal/database"
 
 	"github.com/textwire/textwire/v3"
 )
@@ -13,13 +14,15 @@ type server struct {
 	mux  *http.ServeMux
 	tpl  *textwire.Template
 	conf *config.Config
+	db   *database.Database
 }
 
-func NewServer(conf *config.Config) server {
+func NewServer(conf *config.Config, db *database.Database) server {
 	return server{
 		mux:  http.NewServeMux(),
 		tpl:  newTpl(),
 		conf: conf,
+		db:   db,
 	}
 }
 

@@ -2,13 +2,20 @@ package main
 
 import (
 	"bufio"
+	"context"
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"log"
+	"time"
+
 	"os"
 	"serhii/internal/config"
+	"serhii/internal/database"
 	"serhii/internal/http"
 	"strings"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
@@ -21,10 +28,50 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	serv := http.NewServer(conf)
+	db, err := setupSql()
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	defer db.Close()
+
+	serv := http.NewServer(conf, database.NewMySql(db))
 	if err := serv.ListenAndServe(os.Getenv("APP_PORT")); err != nil {
 		fmt.Println(err)
 	}
+}
+
+func dsn() string {
+	return fmt.Sprintf(
+		"%s:%s@tcp(%s:%s)/%s",
+		os.Getenv("DB_USERNAME"),
+		os.Getenv("DB_PASSWORD"),
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_PORT"),
+		os.Getenv("DB_DATABASE"),
+	)
+}
+
+func setupSql() (*sql.DB, error) {
+	db, err := sql.Open("mysql", dsn())
+	if err != nil {
+		return nil, fmt.Errorf("Error %s when opening DB", err)
+	}
+
+	db.SetMaxOpenConns(20)
+	db.SetMaxIdleConns(20)
+	db.SetConnMaxLifetime(time.Minute * 5)
+
+	ctx, cancelfunc := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancelfunc()
+
+	if err := db.PingContext(ctx); err != nil {
+		return nil, fmt.Errorf("Errors %s pinging DB", err)
+	}
+
+	fmt.Println("Connected to DB successfully")
+
+	return db, nil
 }
 
 func loadEnv() error {

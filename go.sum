@@ -1,10 +1,6 @@
-github.com/joho/godotenv v1.5.1 h1:7eLL/+HRGLY0ldzfGMeQkb7vMd0as4CfYvUVzLqw0N0=
-github.com/joho/godotenv v1.5.1/go.mod h1:f4LDr5Voq0i2e/R5DDNOoa2zzDfwtkZa6DnEwAbqwq4=
-github.com/textwire/textwire/v3 v3.0.2 h1:0evfJ5uurRXSvBvovt68hU20zIeuw6g82bluZxRg/M4=
-github.com/textwire/textwire/v3 v3.0.2/go.mod h1:GXDm8iNiwU5pf55GLz5FyRIsZnktpYm9/wEuQv4Lq0Y=
-github.com/textwire/textwire/v3 v3.1.1 h1:77CnW0+9D2tclwFBCnUkAnxRsza8F0oN809Ba+OI9o8=
-github.com/textwire/textwire/v3 v3.1.1/go.mod h1:GXDm8iNiwU5pf55GLz5FyRIsZnktpYm9/wEuQv4Lq0Y=
-github.com/textwire/textwire/v3 v3.1.2 h1:CGmGEsqIe97dugY0FxjUFsmIukxXI29UZHbMF5DfXwU=
-github.com/textwire/textwire/v3 v3.1.2/go.mod h1:GXDm8iNiwU5pf55GLz5FyRIsZnktpYm9/wEuQv4Lq0Y=
-github.com/textwire/textwire/v3 v3.2.0 h1:BPo1WfasQqn8BhgxCPKeGnmhaj98kSxbfu6krX0+zqA=
-github.com/textwire/textwire/v3 v3.2.0/go.mod h1:GXDm8iNiwU5pf55GLz5FyRIsZnktpYm9/wEuQv4Lq0Y=
+filippo.io/edwards25519 v1.2.0 h1:crnVqOiS4jqYleHd9vaKZ+HKtHfllngJIiOpNpoJsjo=
+filippo.io/edwards25519 v1.2.0/go.mod h1:xzAOLCNug/yB62zG1bQ8uziwrIqIuxhctzJT18Q77mc=
+github.com/go-sql-driver/mysql v1.9.3 h1:U/N249h2WzJ3Ukj8SowVFjdtZKfu9vlLZxjPXV1aweo=
+github.com/go-sql-driver/mysql v1.9.3/go.mod h1:qn46aNg1333BRMNU69Lq93t8du/dwxI64Gl8i5p1WMU=
+github.com/textwire/textwire/v3 v3.2.1 h1:9VxbcUy0p34+SYLURyKbCx8ZpbMtMrlMUGKR+mWbkQA=
+github.com/textwire/textwire/v3 v3.2.1/go.mod h1:GXDm8iNiwU5pf55GLz5FyRIsZnktpYm9/wEuQv4Lq0Y=

@@ -37,4 +37,8 @@
             </div>
         @end
     @end
+
+    <section>
+    @dump(latest)
+    </section>
 @end
