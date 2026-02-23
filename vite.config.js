@@ -42,12 +42,6 @@ export default defineConfig({
         hmr: {
             host: 'localhost',
         },
-        // proxy: {
-        //     '/storage': {
-        //         target: 'http://localhost',
-        //         changeOrigin: true,
-        //     },
-        // },
     },
 
     resolve: {

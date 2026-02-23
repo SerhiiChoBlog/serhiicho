@@ -9,4 +9,7 @@ require (
 
 //replace github.com/textwire/textwire/v3 => /textwire
 
-require filippo.io/edwards25519 v1.2.0 // indirect
+require (
+	filippo.io/edwards25519 v1.2.0 // indirect
+	github.com/joho/godotenv v1.5.1 // indirect
+)

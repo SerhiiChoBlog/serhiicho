@@ -8,6 +8,7 @@ services:
         volumes:
             - .:/app:z
             - /home/serhii/www/open/textwire/textwire:/textwire:z
+            - go-pkg:/go/pkg:z
         depends_on:
             db:
                 condition: service_healthy
@@ -42,4 +43,6 @@ networks:
 
 volumes:
     serhiicho-db:
+        driver: local
+    go-pkg:
         driver: local

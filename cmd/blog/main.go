@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"context"
 	"database/sql"
 	"encoding/json"
@@ -13,13 +12,14 @@ import (
 	"serhii/internal/config"
 	"serhii/internal/database"
 	"serhii/internal/http"
-	"strings"
+
+	"github.com/joho/godotenv"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
-	if err := loadEnv(); err != nil {
+	if err := godotenv.Load(); err != nil {
 		log.Fatalf("unable to load .env file: %e", err)
 	}
 
@@ -72,31 +72,6 @@ func setupSql() (*sql.DB, error) {
 	fmt.Println("Connected to DB successfully")
 
 	return db, nil
-}
-
-func loadEnv() error {
-	file, err := os.Open(".env")
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := strings.TrimSpace(scanner.Text())
-		if line == "" || strings.HasPrefix(line, "#") {
-			continue
-		}
-
-		parts := strings.SplitN(line, "=", 2)
-		if len(parts) == 2 {
-			key := strings.TrimSpace(parts[0])
-			value := strings.TrimSpace(parts[1])
-			os.Setenv(key, value)
-		}
-	}
-
-	return scanner.Err()
 }
 
 func loadConfig() (*config.Config, error) {

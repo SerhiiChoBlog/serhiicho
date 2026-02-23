@@ -88,9 +88,7 @@
 
 @source "../../**/*.js";
 @source "../../**/*.ts";
-@source "../../**/*.blade.php";
 @source "../**/*.vue";
-@source "../../../app/View/**/*.php";
-@source '../../../storage/framework/views/*.php';
+@source "../../../templates/**/*.tw";
 
 @plugin "@tailwindcss/typography";

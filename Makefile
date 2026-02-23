@@ -12,6 +12,10 @@ build:
 db:
 	@$(RUNNER) exec db bash
 
+.PHONY: backup
+backup:
+	$(RUNNER) exec -T db mysql -u serhii -ppassword serhii < backup.sql
+
 .PHONY: stop
 stop:
 	@$(RUNNER) stop
