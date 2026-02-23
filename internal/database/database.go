@@ -1,16 +1,17 @@
 package database
 
 import (
-	"database/sql"
 	"serhii/internal/database/mysql"
 	"serhii/internal/model"
+
+	"github.com/jmoiron/sqlx"
 )
 
 type Database struct {
 	Post PostRepository
 }
 
-func NewMySql(db *sql.DB) *Database {
+func NewMySql(db *sqlx.DB) *Database {
 	return &Database{
 		Post: mysql.NewPost(db),
 	}

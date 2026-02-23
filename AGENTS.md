@@ -1,5 +1,7 @@
 # Serhii Cho Blog - Agent Guidelines
 
+IMPORTANT! ONLY RUN COMMANDS INSIDE PODMAN CONTAINER, DON'T RUN ANYTHING ON THE HOST!
+
 ## Project Overview
 Personal blog rewritten from Laravel to Go using Textwire templating. Learning project exploring Go with a real-world application using Textwire (custom templating language by the same author).
 

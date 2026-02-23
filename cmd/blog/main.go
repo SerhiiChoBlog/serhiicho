@@ -2,17 +2,17 @@ package main
 
 import (
 	"context"
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	"log"
+	"os"
 	"time"
 
-	"os"
 	"serhii/internal/config"
 	"serhii/internal/database"
 	"serhii/internal/http"
 
+	"github.com/jmoiron/sqlx"
 	"github.com/joho/godotenv"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -43,7 +43,7 @@ func main() {
 
 func dsn() string {
 	return fmt.Sprintf(
-		"%s:%s@tcp(%s:%s)/%s",
+		"%s:%s@tcp(%s:%s)/%s?parseTime=true&loc=Local",
 		os.Getenv("DB_USERNAME"),
 		os.Getenv("DB_PASSWORD"),
 		os.Getenv("DB_HOST"),
@@ -52,8 +52,8 @@ func dsn() string {
 	)
 }
 
-func setupSql() (*sql.DB, error) {
-	db, err := sql.Open("mysql", dsn())
+func setupSql() (*sqlx.DB, error) {
+	db, err := sqlx.Open("mysql", dsn())
 	if err != nil {
 		return nil, fmt.Errorf("Error %s when opening DB", err)
 	}
