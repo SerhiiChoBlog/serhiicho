@@ -2,12 +2,13 @@ package utils
 
 import (
 	"fmt"
+	"serhii/internal/model"
 )
 
-func ExtractIDs[T any](items []T, getID func(T) int) []int {
-	ids := make([]int, len(items))
-	for i, item := range items {
-		ids[i] = getID(item)
+func ExtractIDs[T model.Model](models []T) []int {
+	ids := make([]int, len(models))
+	for i, m := range models {
+		ids[i] = m.Ident()
 	}
 
 	return ids

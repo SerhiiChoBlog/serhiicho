@@ -17,3 +17,7 @@ type Feed struct {
 	Post      *Post     `json:"post,omitempty" db:"-"`
 	Badge     *Badge    `json:"badge,omitempty" db:"-"`
 }
+
+func (f *Feed) Ident() int {
+	return f.ID
+}

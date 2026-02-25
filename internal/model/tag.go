@@ -14,3 +14,7 @@ type Tag struct {
 	PivotTagID    int            `json:"pivot_tag_id" db:"pivot_tag_id"`   // from pivot table
 	PivotIsMain   int            `json:"pivot_is_main" db:"pivot_is_main"` // from pivot table (assuming int, change to bool if needed)
 }
+
+func (t *Tag) Ident() int {
+	return t.ID
+}

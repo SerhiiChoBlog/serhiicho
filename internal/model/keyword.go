@@ -5,3 +5,7 @@ type Keyword struct {
 	Name  string `json:"name" db:"name"`
 	Posts []Post `json:"posts,omitempty" db:"-"`
 }
+
+func (k *Keyword) Ident() int {
+	return k.ID
+}

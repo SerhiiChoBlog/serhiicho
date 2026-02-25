@@ -7,3 +7,7 @@ type PostContentImage struct {
 	Path   string `json:"path" db:"path"`
 	Post   *Post  `json:"post,omitempty" db:"-"`
 }
+
+func (p *PostContentImage) Ident() int {
+	return p.ID
+}

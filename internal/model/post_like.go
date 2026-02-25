@@ -10,3 +10,7 @@ type PostLike struct {
 	User      *User     `json:"user,omitempty" db:"-"`
 	Post      *Post     `json:"post,omitempty" db:"-"`
 }
+
+func (p *PostLike) Ident() int {
+	return p.ID
+}

@@ -26,3 +26,7 @@ type User struct {
 	LikedComments   []Comment     `json:"liked_comments,omitempty" db:"-"`
 	Feed            []Feed        `json:"feed,omitempty" db:"-"`
 }
+
+func (u *User) Ident() int {
+	return u.ID
+}

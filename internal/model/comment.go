@@ -20,3 +20,7 @@ type Comment struct {
 	PrettyCreatedAt string        `json:"pretty_created_at" db:"-"` // generated, not in DB
 	CreatedAt       time.Time     `json:"created_at" db:"created_at"`
 }
+
+func (c *Comment) Ident() int {
+	return c.ID
+}

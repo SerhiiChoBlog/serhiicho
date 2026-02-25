@@ -10,3 +10,7 @@ type CommentLike struct {
 	Comment   *Comment  `json:"comment,omitempty" db:"-"`
 	User      *User     `json:"user,omitempty" db:"-"`
 }
+
+func (cl *CommentLike) Ident() int {
+	return cl.ID
+}

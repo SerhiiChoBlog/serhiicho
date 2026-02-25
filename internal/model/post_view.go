@@ -12,3 +12,7 @@ type PostView struct {
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
 }
+
+func (p *PostView) Ident() int {
+	return p.ID
+}

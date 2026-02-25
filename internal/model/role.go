@@ -5,3 +5,7 @@ type Role struct {
 	Name  string `json:"name" db:"name"`
 	Users []User `json:"users,omitempty" db:"-"`
 }
+
+func (r *Role) Ident() int {
+	return r.ID
+}

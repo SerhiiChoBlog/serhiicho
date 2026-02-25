@@ -7,3 +7,7 @@ type Badge struct {
 	Icon        string `json:"icon" db:"icon"`
 	Users       []User `json:"users,omitempty" db:"-"`
 }
+
+func (b *Badge) Ident() int {
+	return b.ID
+}

@@ -12,3 +12,7 @@ type SocialShare struct {
 	Visitor   *Visitor  `json:"visitor,omitempty" db:"-"`
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 }
+
+func (s *SocialShare) Ident() int {
+	return s.ID
+}

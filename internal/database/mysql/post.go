@@ -36,14 +36,13 @@ func (p *Post) Latest() ([]*model.Post, error) {
 		return nil, err
 	}
 
+	p.setAccessors(posts)
+
 	return posts, nil
 }
 
 func (p *Post) attachTags(posts []*model.Post) error {
-	postIDs := utils.ExtractIDs(posts, func(p *model.Post) int {
-		return p.ID
-	})
-
+	postIDs := utils.ExtractIDs(posts)
 	idsStr := utils.IntsToStrings(postIDs)
 
 	tagsQuery := fmt.Sprintf(`
@@ -70,4 +69,10 @@ func (p *Post) attachTags(posts []*model.Post) error {
 	}
 
 	return nil
+}
+
+func (p *Post) setAccessors(posts []*model.Post) {
+	for i := range posts {
+		posts[i].SetAccessors()
+	}
 }

@@ -10,3 +10,7 @@ type PostPublication struct {
 	Post           *Post     `json:"post,omitempty" db:"-"`
 	CreatedAt      time.Time `json:"created_at" db:"created_at"`
 }
+
+func (p *PostPublication) Ident() int {
+	return p.ID
+}

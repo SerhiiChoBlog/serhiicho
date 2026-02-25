@@ -31,4 +31,16 @@ type Post struct {
 	Keywords            []Keyword              `json:"keywords" db:"-"`
 	PostPublication     *PostPublication       `json:"post_publication,omitempty" db:"-"`
 	Comments            []Comment              `json:"comments" db:"-"`
+	PrettyCreatedAt     string                 `json:"pretty_created_at" db:"-"`
+}
+
+// SetAccessors sets dynamic fields that don't exist in database but
+// exist only on a model. We should set these fields after the model
+// was fetched from the database.
+func (p *Post) SetAccessors() {
+	p.PrettyCreatedAt = p.CreatedAt.Format("Jan 2, 2006")
+}
+
+func (p *Post) Ident() int {
+	return p.ID
 }

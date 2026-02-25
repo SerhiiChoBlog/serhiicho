@@ -11,3 +11,7 @@ type Visitor struct {
 	IsBlocked    bool          `json:"is_blocked" db:"is_blocked"`
 	IsRobot      bool          `json:"is_robot" db:"is_robot"`
 }
+
+func (v *Visitor) Ident() int {
+	return v.ID
+}
