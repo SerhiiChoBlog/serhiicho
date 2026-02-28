@@ -1,8 +1,0 @@
-@use("~main")
-
-@insert("title", "Serhii Cho")
-
-@insert("content")
-    <h1>Hello, World!</h1>
-    <p>This is a home page.</p>
-@end

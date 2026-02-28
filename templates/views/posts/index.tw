@@ -1,0 +1,25 @@
+@use("~main")
+
+{{ title = tag ? 'Read about %s'.format(tag.title) : 'Articles for developers' }}
+
+@insert('title', title)
+@insert('description', "Writing about software development, systems, and the practical details that make things work")
+
+@insert("content")
+    @component("~hero", {
+        mainTitle: title,
+        subtitle:"Writing about software development,<br>systems, and the practical details that make things work.",
+        class: 'bg-cover text-white relative %s'.format(series ? '' : 'bg-home-hero'),
+        style: series ? "background: linear-gradient(90deg, %s 0%, %s 100%)".format(series.color_from, series.color_to) : '',
+    })
+        @slotif(tag)
+            <img
+                src="{{ "/storage/tags/%s.webp".format(tag.name) }}"
+                alt="The logo of {{ tag.name }}"
+                class="absolute top-1/2 left-1/4 -translate-y-1/2 opacity-50 w-40 h-40"
+                width="200"
+                height="200"
+            />
+        @end
+    @end
+@end

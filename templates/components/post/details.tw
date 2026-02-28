@@ -3,7 +3,7 @@
         {{ post.prettyCreatedAt }}
     </time>
 
-    @if(defined(post.readTime) && post.readTime > 0)
+    @if(hasValue(post.readTime))
         @component('~post/detail', { ariaLabel: 'Minutes to read' })
             @slot
                 @component('~icons/book', { class: 'w-4 h-4' })
@@ -12,7 +12,7 @@
         @end
     @end
 
-    @if(defined(post.postViewsCount) && post.postViewsCount && post.postViewsCount > 0)
+    @if(hasValue(post.postViewsCount))
         @component('~post/detail', { ariaLabel: 'Post views' })
             @slot
                 @component('~icons/views', { class: 'w-4 h-4' })
@@ -21,7 +21,7 @@
         @end
     @end
 
-    @if(defined(post.commentsCount) && post.commentsCount && post.commentsCount > 0)
+    @if(hasValue(post.commentsCount))
         @component('~post/detail', { ariaLabel: 'Post comments amount' })
             @slot
                 @component('~icons/comment', { class: 'w-4 h-4' })

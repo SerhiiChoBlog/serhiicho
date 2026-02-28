@@ -1,4 +1,4 @@
-<div class="flex print:justify-center gap-1 flex-wrap {{ defined(class) ? class : '' }}">
+<div class="flex print:justify-center gap-1 flex-wrap {{ hasValue(class) ? class : '' }}">
     @each(tag in tags)
         <a
             href="/posts?tag={{ tag.name }}"

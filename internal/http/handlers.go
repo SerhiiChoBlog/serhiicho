@@ -29,3 +29,11 @@ func (s *server) aboutHandler(w http.ResponseWriter, _ *http.Request) {
 		log.Println(err)
 	}
 }
+
+func (s *server) postsHandler(w http.ResponseWriter, _ *http.Request) {
+	data := map[string]any{}
+
+	if err := s.tpl.Response(w, "views/posts/index", data); err != nil {
+		log.Println(err)
+	}
+}
