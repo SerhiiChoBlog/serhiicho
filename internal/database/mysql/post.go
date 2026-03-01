@@ -17,7 +17,31 @@ func NewPost(db *sqlx.DB) *Post {
 	return &Post{db: db}
 }
 
-func (p *Post) Latest() ([]*model.Post, error) {
+func (t *Post) List() ([]*model.Post, error) {
+	posts := make([]*model.Post, 0, 1)
+
+	postsQuery := `
+		SELECT id, slug, title, intro, image_sm, image_xs, created_at, read_time
+			FROM posts
+			WHERE is_published = true
+			ORDER BY created_at DESC
+			LIMIT 15
+	`
+
+	if err := t.db.Select(&posts, postsQuery); err != nil {
+		return nil, fmt.Errorf("Select posts error in List(): %v", err)
+	}
+
+	if err := t.attachTags(posts); err != nil {
+		return nil, err
+	}
+
+	t.setAccessors(posts)
+
+	return posts, nil
+}
+
+func (t *Post) Latest() ([]*model.Post, error) {
 	posts := make([]*model.Post, 0, 2)
 
 	postsQuery := `
@@ -28,20 +52,20 @@ func (p *Post) Latest() ([]*model.Post, error) {
 			LIMIT 2
 	`
 
-	if err := p.db.Select(&posts, postsQuery); err != nil {
-		return nil, fmt.Errorf("Select posts error: %v", err)
+	if err := t.db.Select(&posts, postsQuery); err != nil {
+		return nil, fmt.Errorf("Select posts error in Latest(): %v", err)
 	}
 
-	if err := p.attachTags(posts); err != nil {
+	if err := t.attachTags(posts); err != nil {
 		return nil, err
 	}
 
-	p.setAccessors(posts)
+	t.setAccessors(posts)
 
 	return posts, nil
 }
 
-func (p *Post) attachTags(posts []*model.Post) error {
+func (t *Post) attachTags(posts []*model.Post) error {
 	postIDs := utils.ExtractIDs(posts)
 	idsStr := utils.IntsToStrings(postIDs)
 
@@ -53,7 +77,7 @@ func (p *Post) attachTags(posts []*model.Post) error {
 	`, strings.Join(idsStr, ","))
 
 	tags := make([]model.Tag, 0, 2)
-	if err := p.db.Select(&tags, tagsQuery); err != nil {
+	if err := t.db.Select(&tags, tagsQuery); err != nil {
 		return fmt.Errorf("Select tags error: %v", err)
 	}
 
@@ -71,7 +95,7 @@ func (p *Post) attachTags(posts []*model.Post) error {
 	return nil
 }
 
-func (p *Post) setAccessors(posts []*model.Post) {
+func (t *Post) setAccessors(posts []*model.Post) {
 	for i := range posts {
 		posts[i].SetAccessors()
 	}

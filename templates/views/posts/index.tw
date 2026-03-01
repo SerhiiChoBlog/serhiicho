@@ -1,7 +1,5 @@
 @use("~main")
 
-{{ title = tag ? 'Read about %s'.format(tag.title) : 'Articles for developers' }}
-
 @insert('title', title)
 @insert('description', "Writing about software development, systems, and the practical details that make things work")
 
@@ -14,7 +12,7 @@
     })
         @slotif(tag)
             <img
-                src="{{ "/storage/tags/%s.webp".format(tag.name) }}"
+                src="/storage/tags/{{ tag.name }}.webp"
                 alt="The logo of {{ tag.name }}"
                 class="absolute top-1/2 left-1/4 -translate-y-1/2 opacity-50 w-40 h-40"
                 width="200"

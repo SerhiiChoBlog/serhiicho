@@ -31,7 +31,21 @@ func (s *server) aboutHandler(w http.ResponseWriter, _ *http.Request) {
 }
 
 func (s *server) postsHandler(w http.ResponseWriter, _ *http.Request) {
-	data := map[string]any{}
+	posts, err := s.db.Post.List()
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	tag, err := s.db.Tag.ByName("php")
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	data := map[string]any{
+		"title": "Articles for developers",
+		"posts": posts,
+		"tag":   tag,
+	}
 
 	if err := s.tpl.Response(w, "views/posts/index", data); err != nil {
 		log.Println(err)
