@@ -15,6 +15,7 @@ type Post struct {
 	PostViewsCount      *int                   `json:"post_views_count,omitempty" db:"post_views_count"`
 	SocialSharesCount   *int                   `json:"social_shares_count,omitempty" db:"social_shares_count"`
 	CommentsSharesCount *int                   `json:"comments_shares_count,omitempty" db:"comments_shares_count"`
+	CommentsCount       *int                   `json:"comments_count,omitempty" db:"comments_count"`
 	PostLikesCount      *int                   `json:"post_likes_count,omitempty" db:"post_likes_count"`
 	ReadTime            int                    `json:"read_time" db:"read_time"`
 	Social              *[]map[string][]string `json:"social,omitempty" db:"social"`

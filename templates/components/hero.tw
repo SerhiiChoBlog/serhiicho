@@ -1,5 +1,5 @@
 <header class="{{ hasValue(class) ? class : '' }}" style="{{ hasValue(style) ? style : '' }}">
-    <div class="{{ navbar }} min-h-[55px]">
+    <div class="{{ hasValue(navbar) ? navbar : '' }} min-h-[55px]">
         <navbar theme="system"></navbar>
     </div>
 

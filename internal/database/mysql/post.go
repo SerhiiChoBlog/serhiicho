@@ -21,11 +21,19 @@ func (t *Post) List() ([]*model.Post, error) {
 	posts := make([]*model.Post, 0, 1)
 
 	postsQuery := `
-		SELECT id, slug, title, intro, image_sm, image_xs, created_at, read_time
-			FROM posts
-			WHERE is_published = true
-			ORDER BY created_at DESC
-			LIMIT 15
+		SELECT p.id, p.slug, p.title, p.intro, p.image_sm, p.image_xs, p.created_at, p.read_time,
+			-- Select post_views_count
+			(SELECT COUNT(*)
+			FROM post_views pv
+			WHERE pv.post_id = p.id) AS post_views_count,
+			-- Select comments_count
+			(SELECT COUNT(*)
+			FROM comments c
+			WHERE c.post_id = p.id) AS comments_count
+		FROM posts p
+		WHERE is_published = true
+		ORDER BY created_at DESC
+		LIMIT 15
 	`
 
 	if err := t.db.Select(&posts, postsQuery); err != nil {
@@ -45,11 +53,19 @@ func (t *Post) Latest() ([]*model.Post, error) {
 	posts := make([]*model.Post, 0, 2)
 
 	postsQuery := `
-		SELECT id, slug, title, intro, image_sm, image_xs, created_at, read_time
-			FROM posts
-			WHERE is_published = true
-			ORDER BY created_at DESC
-			LIMIT 2
+		SELECT p.id, p.slug, p.title, p.intro, p.image_sm, p.image_xs, p.created_at, p.read_time,
+			-- Select post_views_count
+			(SELECT COUNT(*)
+			FROM post_views pv
+			WHERE pv.post_id = p.id) AS post_views_count,
+			-- Select comments_count
+			(SELECT COUNT(*)
+			FROM comments c
+			WHERE c.post_id = p.id) AS comments_count
+		FROM posts p
+		WHERE p.is_published = true
+		ORDER BY p.created_at DESC
+		LIMIT 2
 	`
 
 	if err := t.db.Select(&posts, postsQuery); err != nil {

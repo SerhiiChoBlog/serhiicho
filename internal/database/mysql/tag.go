@@ -18,12 +18,7 @@ func NewTag(db *sqlx.DB) *Tag {
 func (t *Tag) ByName(name string) (*model.Tag, error) {
 	var tag model.Tag
 
-	query := `
-		SELECT *
-		FROM tags
-		WHERE name = ?
-	`
-
+	query := "SELECT * FROM tags WHERE name = ?"
 	if err := t.db.Get(&tag, query, name); err != nil {
 		return nil, fmt.Errorf("Get tag error in ByName(): %v", err)
 	}
