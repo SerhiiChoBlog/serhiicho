@@ -12,12 +12,34 @@
     })
         @slotif(tag)
             <img
-                src="/storage/tags/{{ tag.name }}.webp"
-                alt="The logo of {{ tag.name }}"
+                src="/storage/tags/{{ tag.Name }}.webp"
+                alt="The logo of {{ tag.Name }}"
                 class="absolute top-1/2 left-1/4 -translate-y-1/2 opacity-50 w-40 h-40"
                 width="200"
                 height="200"
             />
         @end
     @end
+
+    <div class="container">
+        <div class="bg-page max-w-[1100px] mx-auto -translate-y-6 rounded-xl px-3 pt-3">
+            <div class="min-h-10">
+                <filters :current-tag='{{ hasValue(tag) ? "%s".format(tag.camel().json()) : 'null' }}'></filters>
+            </div>
+
+            @if(posts.len() == 0)
+                @component('~posts/no-posts', { tag })
+            @else
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6 mt-4">
+                    @each(post in posts)
+                        @component('~posts/horizontal', { post })
+                    @end
+                </div>
+
+                <div class="my-6 mx-4">
+                    {{-- $posts->appends(request()->input())->links('vendor.pagination.default') --}}
+                </div>
+            @end
+        </div>
+    </div>
 @end

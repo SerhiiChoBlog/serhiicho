@@ -1,10 +1,10 @@
-{{ seriesItem = post.series.len() > 0 ? post.series[0] : nil }}
+{{ seriesItem = post.Series.len() > 0 ? post.Series[0] : nil }}
 
-@if(hasValue(seriesItem.postsCount))
+@if(hasValue(seriesItem.PostsCount))
     <a
-        href="/series/{{ seriesItem.slug }}"
+        href="/series/{{ seriesItem.Slug }}"
         class="opacity-60 font-bold"
     >
-        Part {{ seriesItem.pivot.part }} of {{ seriesItem.postsCount }}
+        Part {{ seriesItem.Pivot.Part }} of {{ seriesItem.PostsCount }}
     </a>
 @end

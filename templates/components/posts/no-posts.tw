@@ -1,0 +1,24 @@
+@if(hasValue(tag))
+    <h2 class="text-center text-xl mt-10">
+        There are no posts with the tag
+        <strong class="text-font-second">"{{ tag }}"</strong>
+    </h2>
+@else
+    <h2 class="text-center text-xl mt-20">
+        There are no posts found
+    </h2>
+@end
+
+<div class="flex gap-3 justify-center mt-5 mb-20">
+    {{ items = [{ url: '/', title: 'Go home' }, { url: '/posts', title: 'All posts' }] }}
+
+    @each(item in items)
+        <a
+            href="{{ item.url }}"
+            rel="noreferrer"
+            class="px-10 py-2 border border-border rounded-full uppercase"
+        >
+            {{ item.title }}
+        </a>
+    @end
+</div>

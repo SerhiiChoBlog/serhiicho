@@ -17,7 +17,7 @@ func (s *server) homeHandler(w http.ResponseWriter, _ *http.Request) {
 		"latest": latest,
 	}
 
-	if err := s.tpl.Response(w, "views/home", data); err != nil {
+	if err := s.tpl.Response(w, "~home", data); err != nil {
 		log.Println(err)
 	}
 }
@@ -27,7 +27,7 @@ func (s *server) aboutHandler(w http.ResponseWriter, _ *http.Request) {
 		"technologies": s.conf.Technologies,
 	}
 
-	if err := s.tpl.Response(w, "views/about-me", data); err != nil {
+	if err := s.tpl.Response(w, "~about-me", data); err != nil {
 		log.Println(err)
 	}
 }
@@ -62,7 +62,7 @@ func (s *server) postsHandler(w http.ResponseWriter, r *http.Request) {
 		"tag":    tag,
 	}
 
-	if err := s.tpl.Response(w, "views/posts/index", data); err != nil {
+	if err := s.tpl.Response(w, "~posts/index", data); err != nil {
 		log.Println(err)
 	}
 }

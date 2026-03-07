@@ -1,31 +1,31 @@
 <div class="flex flex-wrap opacity-70 print:justify-center items-center gap-2.5 {{ defined(class) ? class : '' }}">
-    <time aria-label="Post published date" datetime="{{ post.createdAt }}" class="text-sm">
-        {{ post.prettyCreatedAt }}
+    <time aria-label="Post published date" datetime="{{ post.CreatedAt }}" class="text-sm">
+        {{ post.PrettyCreatedAt }}
     </time>
 
-    @if(hasValue(post.readTime))
+    @if(hasValue(post.ReadTime))
         @component('~post/detail', { ariaLabel: 'Minutes to read' })
             @slot
                 @component('~icons/book', { class: 'w-4 h-4' })
-                {{ post.readTime }} min
+                {{ post.ReadTime }} min
             @end
         @end
     @end
 
-    @if(hasValue(post.postViewsCount))
+    @if(hasValue(post.PostViewsCount))
         @component('~post/detail', { ariaLabel: 'Post views' })
             @slot
                 @component('~icons/views', { class: 'w-4 h-4' })
-                {{ post.postViewsCount }} views
+                {{ post.PostViewsCount }} views
             @end
         @end
     @end
 
-    @if(hasValue(post.commentsCount))
+    @if(hasValue(post.CommentsCount))
         @component('~post/detail', { ariaLabel: 'Post comments amount' })
             @slot
                 @component('~icons/comment', { class: 'w-4 h-4' })
-                {{ post.commentsCount }}
+                {{ post.CommentsCount }}
             @end
         @end
     @end
