@@ -7,7 +7,7 @@ import (
 	"serhii/internal/config"
 	"serhii/internal/database"
 
-	"github.com/textwire/textwire/v3"
+	"github.com/textwire/textwire/v4"
 )
 
 type server struct {
@@ -31,7 +31,7 @@ func (s *server) ListenAndServe(addr string) error {
 	s.mux.HandleFunc("GET /about-me", s.aboutHandler)
 	s.mux.HandleFunc("GET /posts", s.postsHandler)
 
-	fmt.Printf("Server is running on http://localhost:%s\n", addr)
+	fmt.Printf("[Server ] running on http://localhost:%s\n", addr)
 
 	return http.ListenAndServe(":"+addr, s.mux)
 }

@@ -1,11 +1,10 @@
 package http
 
 import (
-	"log"
 	"os"
 
-	"github.com/textwire/textwire/v3"
-	"github.com/textwire/textwire/v3/config"
+	"github.com/textwire/textwire/v4"
+	"github.com/textwire/textwire/v4/config"
 )
 
 func newTpl() *textwire.Template {
@@ -26,9 +25,7 @@ func newTpl() *textwire.Template {
 	}
 
 	tpl, err := textwire.NewTemplate(twConf)
-	if err != nil {
-		log.Fatal(err)
-	}
+	err.FatalOnError()
 
 	return tpl
 }
