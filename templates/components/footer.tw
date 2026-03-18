@@ -1,0 +1,36 @@
+{{ menuItems = [
+    { href: '/', title: 'Home', isActive: false },
+    { href: '/posts', title: 'Blog', isActive: false },
+    { href: '/series', title: 'Series', isActive: false },
+    { href: '/projects', title: 'Open Source', isActive: false },
+    { href: '/about-me', title: 'About', isActive: false },
+    { href: '/subscribe', title: 'Subscribe', isActive: false },
+] }}
+
+<footer class="print:hidden bg-linear-to-r from-gray-800 to-gray-700 text-white py-20 grid grid-cols-1 xl:grid-cols-[3fr_1fr] gap-7 relative z-10">
+    <subscription></subscription>
+
+    <div>
+        <div class="flex flex-col items-center xl:items-start gap-3 mt-10 xl:mt-0">
+            @each(item in menuItems)
+                @if(item.isActive)
+                    <span class="{{ item.isActive ? 'border-b-2 border-white' : '' }} uppercase">
+                        {{ item.title }}
+                    </span>
+                @else
+                    <a
+                        href="{{ item.href }}"
+                        class="{{ item.isActive ? 'border-b-2 border-white' : '' }} uppercase"
+                        rel="noreferrer"
+                    >
+                        {{ item.title }}
+                    </a>
+                @end
+            @end
+
+            <div class="mt-2">
+                <contact-modal></contact-modal>
+            </div>
+        </div>
+    </div>
+</footer>

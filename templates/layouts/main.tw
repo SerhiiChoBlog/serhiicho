@@ -7,7 +7,11 @@
     @end
 </head>
 <body class="text-font font-main bg-page {{ global.darkThemeCookie }}">
-    <main id="main">@reserve("content")</main>
+    <main id="main">
+        @reserve("content")
+
+        @component('~footer')
+    </main>
 
     <script type="text/javascript">
         window.Auth = null

@@ -37,9 +37,6 @@
                 </div>
 
                 <div class="my-6 mx-4">
-                    @component('~partials/pagination', {
-                        url: '/posts',
-                    })
                     {{-- $posts->appends(request()->input())->links('vendor.pagination.default') --}}
                 </div>
             @end
