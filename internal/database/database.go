@@ -8,20 +8,26 @@ import (
 )
 
 type Database struct {
-	Post PostRepository
-	Tag  TagRepository
+	Post   PostRepository
+	Tag    TagRepository
+	Series SeriesRepository
 }
 
 func NewMySql(db *sqlx.DB) *Database {
 	return &Database{
-		Post: mysql.NewPost(db),
-		Tag:  mysql.NewTag(db),
+		Post:   mysql.NewPost(db),
+		Tag:    mysql.NewTag(db),
+		Series: mysql.NewSeries(db),
 	}
 }
 
 type PostRepository interface {
 	Latest() ([]*model.Post, error)
 	List() ([]*model.Post, error)
+}
+
+type SeriesRepository interface {
+	List() ([]*model.Series, error)
 }
 
 type TagRepository interface {

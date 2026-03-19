@@ -85,7 +85,7 @@ func (t *Post) attachTags(posts []*model.Post) error {
 	postIDs := utils.ExtractIDs(posts)
 	idsStr := utils.IntsToStrings(postIDs)
 
-	tagsQuery := fmt.Sprintf(`
+	query := fmt.Sprintf(`
 		SELECT t.id, t.name, t.color, t.title, pt.post_id as pivot_post_id
 		FROM tags t 
 		JOIN post_tag pt ON t.id = pt.tag_id 
@@ -93,7 +93,7 @@ func (t *Post) attachTags(posts []*model.Post) error {
 	`, strings.Join(idsStr, ","))
 
 	tags := make([]model.Tag, 0, 2)
-	if err := t.db.Select(&tags, tagsQuery); err != nil {
+	if err := t.db.Select(&tags, query); err != nil {
 		return fmt.Errorf("Select tags error: %v", err)
 	}
 

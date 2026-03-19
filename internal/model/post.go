@@ -33,6 +33,7 @@ type Post struct {
 	PostPublication     *PostPublication       `json:"post_publication,omitempty" db:"-"`
 	Comments            []Comment              `json:"comments" db:"-"`
 	PrettyCreatedAt     string                 `json:"pretty_created_at" db:"-"`
+	PivotSeriesID       int                    `json:"pivot_series_id" db:"pivot_series_id"` // from pivot table
 }
 
 // SetAccessors sets dynamic fields that don't exist in database but

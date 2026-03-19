@@ -17,11 +17,3 @@ func (s *server) homeHandler(w http.ResponseWriter, _ *http.Request) {
 
 	s.tpl.Response(w, "~home", data)
 }
-
-func (s *server) aboutHandler(w http.ResponseWriter, _ *http.Request) {
-	data := map[string]any{
-		"technologies": s.conf.Technologies,
-	}
-
-	s.tpl.Response(w, "~about-me", data)
-}

@@ -28,8 +28,9 @@ func NewServer(conf *config.Config, db *database.Database) server {
 
 func (s *server) ListenAndServe(addr string) error {
 	s.servePublic("GET /", "./public")
-	s.mux.HandleFunc("GET /about-me", s.aboutHandler)
+	s.mux.HandleFunc("GET /about-me", s.aboutMeHandler)
 	s.mux.HandleFunc("GET /posts", s.postsHandler)
+	s.mux.HandleFunc("GET /series", s.seriesHandler)
 
 	fmt.Printf("[Server ] running on http://localhost:%s\n", addr)
 

@@ -20,7 +20,7 @@
             @else
                 <div class="flex flex-col gap-y-4 mt-4">
                     @each(s in series)
-                        <x-series.card :series="$s" />
+                        @component('~series/card', { series: s })
                     @end
 
                     <div class="my-6 mx-4">

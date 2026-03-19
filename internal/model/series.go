@@ -16,6 +16,7 @@ type Series struct {
 	ColorTo     string    `json:"color_to" db:"color_to"`
 	ReadTime    int       `json:"read_time" db:"read_time"`
 	Posts       []Post    `json:"posts" db:"-"`
+	PivotPostID int       `json:"pivot_post_id" db:"pivot_post_id"` // from pivot table
 	CreatedAt   time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at" db:"updated_at"`
 }
