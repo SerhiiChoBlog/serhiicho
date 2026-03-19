@@ -49,6 +49,22 @@ func (t *Post) List() ([]*model.Post, error) {
 	return posts, nil
 }
 
+func (t *Post) Single(slug string) (model.Post, error) {
+	var post model.Post
+
+	postQuery := `
+		SELECT *
+		FROM posts p
+		WHERE slug = ?
+	`
+
+	if err := t.db.Get(&post, postQuery, slug); err != nil {
+		return model.Post{}, fmt.Errorf("Select post error in Single(): %v", err)
+	}
+
+	return post, nil
+}
+
 func (t *Post) Latest() ([]*model.Post, error) {
 	posts := make([]*model.Post, 0, 2)
 

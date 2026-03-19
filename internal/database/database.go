@@ -24,6 +24,7 @@ func NewMySql(db *sqlx.DB) *Database {
 type PostRepository interface {
 	Latest() ([]*model.Post, error)
 	List() ([]*model.Post, error)
+	Single(slug string) (model.Post, error)
 }
 
 type SeriesRepository interface {

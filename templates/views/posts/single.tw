@@ -1,0 +1,5 @@
+@use('~main')
+
+@insert('content')
+    <h2>{{ post.Title }}</h2>
+@end
