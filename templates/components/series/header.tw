@@ -1,0 +1,20 @@
+<div class="mb-4">
+    <h2 class="text-2xl lg:text-3xl font-bold text-gray-100">
+        {{ series.Title }}
+    </h2>
+
+    <h3 class="text-lg lg:text-xl text-main-light">
+        {{ series.Intro }}
+    </h3>
+
+    <h4 class="text-md lg:text-lg text-gray-300">
+        {{ series.PostsCount }} article{{ series.PostsCount == 1 ? '' : 's' }}
+
+        <x-edit-button
+            url="/admin/series/{{ series.ID }}/edit"
+            class="ml-2"
+        />
+    </h4>
+
+    <h5 class="text-gray-300">{{ series.ReadTime }} min total read time</h5>
+</div>

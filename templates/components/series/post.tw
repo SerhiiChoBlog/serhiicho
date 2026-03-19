@@ -1,0 +1,15 @@
+<tip content="{{ post.IsPublished ? '' : 'Post is currently in progress' }}">
+    <a
+        href="{{ post.IsPublished ? '/posts/%s'.format(post.Slug) : 'javascript:' }}"
+        class="block transition-[outline] outline outline-transparent {{ post.IsPublished ? 'hover:outline-main' : 'opacity-30 cursor-help' }} rounded-md"
+    >
+        <img
+            src="/{{ post.ImageXs }}"
+            data-src="/{{ post.ImageSm }}"
+            class="rounded-lg shadow-md w-full"
+            width="550"
+            height="275"
+            alt="Main image for the post '{{ post.Title }}'"
+        />
+    </a>
+</tip>

@@ -1,0 +1,42 @@
+<article
+    class="grid grid-cols-1 lg:grid-cols-[5fr_2fr] rounded-xl shadow-lg"
+    style="background: linear-gradient(90deg, {{ series.ColorFrom }} 0%, {{ series.ColorTo }} 100%)"
+>
+    <div class="p-4 lg:p-8 lg:pr-0 flex flex-col justify-between">
+        <div>
+            <x-series.header :series="series" />
+            @component('~series/header', { series })
+
+            <img
+                src="/{{ series.ImageXs }}"
+                data-src="/{{ series.ImageSm }}"
+                alt="{{ series.Title }}"
+                class="w-full rounded-lg shadow-md"
+                width="750"
+                height="250"
+            >
+
+            <div class="mt-4 lg:text-lg text-gray-300 prose-p:mb-5 prose-a:underline">
+                {{ series.Description.raw() }}
+            </div>
+        </div>
+
+        <div class="text-right mt-3 lg:mt-7">
+            <a
+                href="/series/{{ series.Slug }}"
+                class="bg-page px-6 p-2 rounded-lg transition-opacity hover:opacity-80 inline-flex items-center gap-1"
+            >
+                <span>Read series</span>
+                @component('~icons/arrow-right', { class: 'w-6 h-6' })
+            </a>
+        </div>
+    </div>
+
+    <div class="border-t-4 lg:border-l-4 lg:border-t-0 border-dashed border-page p-4 lg:p-8 pl-4 ml-4 lg:pl-4">
+        <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-1 gap-2">
+            @each(post in series.Posts)
+                <li>@component('~series/post', { post })</li>
+            @end
+        </ul>
+    </div>
+</article>

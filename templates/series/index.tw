@@ -1,0 +1,33 @@
+@use('~main')
+
+@insert('title', 'Series of articles')
+@insert('description', 'Collection of articles groped by specific topics. Each series contains a number of articles on a specific topic.')
+
+@insert('content')
+    @component('~hero', {
+        mainTitle: "Series of articles",
+        subtitle: "Collection of articles groped by specific topics.<br />Each series contains a number of articles on a specific topic.",
+        class: "bg-gradient-to-r from-[#1a1b1b] to-[#2f4343] text-white relative",
+        style: "background: linear-gradient(90deg, {{ series[0] ? series[0].ColorFrom : '' }} 0%, {{ series[0] ? series[0].ColorTo : '' }} 100%)",
+    })
+
+    <div class="container">
+        <div class="bg-page max-w-[1100px] mx-auto -translate-y-6 rounded-xl px-3 pt-3">
+            @if(series.len() == 0)
+                <h2 class="text-center text-xl mt-20">
+                    There are no series yet
+                </h2>
+            @else
+                <div class="flex flex-col gap-y-4 mt-4">
+                    @each(s in series)
+                        <x-series.card :series="$s" />
+                    @end
+
+                    <div class="my-6 mx-4">
+                        {{-- {{ $series->appends(request()->input())->links('vendor.pagination.default') }} --}}
+                    </div>
+                </div>
+            @end
+        </div>
+    </div>
+@end
