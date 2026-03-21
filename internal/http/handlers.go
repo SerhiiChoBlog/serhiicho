@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"serhii/internal/model"
+	"strings"
 )
 
 func (s *server) homeHandler(w http.ResponseWriter, _ *http.Request) {
@@ -62,13 +63,33 @@ func (s *server) postsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *server) postHandler(w http.ResponseWriter, r *http.Request) {
-	post, err := s.db.Post.Single("php-revival-extension-a-new-look-at-php-documentation")
+	slug := r.PathValue("slug")
+
+	if strings.Contains(slug, ".") {
+		http.NotFound(w, r)
+		return
+	}
+
+	post, err := s.db.Post.Single(slug)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
+	var series *model.Series
+	if len(post.Series) > 0 {
+		series = &post.Series[0]
+	}
+
+	postTitle := post.Title
+	if series != nil {
+		postTitle = series.Title
+	}
+
 	data := map[string]any{
-		"post": post,
+		"post":          post,
+		"postTitle":     postTitle,
+		"titleFontSize": getPostTitleFontSize(post.Title),
+		"series":        series,
 	}
 
 	s.tpl.Response(w, "~posts/single", data)

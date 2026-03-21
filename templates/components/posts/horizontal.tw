@@ -7,8 +7,8 @@
             rel="noreferrer"
         >
             <img
-                src="{{ post.ImageXs }}"
-                data-src="{{ post.ImageSm }}"
+                src="/{{ post.ImageXs }}"
+                data-src="/{{ post.ImageSm }}"
                 class="rounded-lg shadow-md shadow-[rgba(0,0,0,.2)] w-full"
                 width="550"
                 height="275"

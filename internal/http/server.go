@@ -35,7 +35,9 @@ func (s *server) ListenAndServe(addr string) error {
 
 	fmt.Printf("[Server ] running on http://localhost:%s\n", addr)
 
-	return http.ListenAndServe(":"+addr, s.mux)
+	handler := chain(s.mux, stripTrailingSlash)
+
+	return http.ListenAndServe(":"+addr, handler)
 }
 
 func (s *server) servePublic(pattern, pubDir string) {

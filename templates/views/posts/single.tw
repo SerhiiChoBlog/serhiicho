@@ -1,5 +1,163 @@
 @use('~main')
 
+@insert('head')
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@SerhiiCho">
+    <meta name="twitter:title" content="{{ postTitle }}">
+    <meta name="twitter:description" content="{{ post.Intro }}">
+    <meta name="twitter:image" content="{{ global.appURL + post.ImageLg }}">
+    <meta property="og:site_name" content="{{ global.appName }}">
+    <meta property="og:title" content="{{ postTitle }}">
+    <meta property="og:description" content="{{ post.Intro }}" />
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="{{ global.appURL + post.Slug }}">
+    <meta property="og:image" content="{{ global.appURL + post.ImageLg }}">
+    <meta property="og:image:width" content="1000">
+    <meta property="og:image:height" content="500">
+    <meta property="article:published_time" content="{{ post.CreatedAt }}">
+    <meta property="article:modified_time" content="{{ post.UpdatedAt }}">
+
+    @each(tag in post.Tags)
+        <meta property="article:tag" content="{{ tag.Name }}">
+    @end
+
+    @each(keyword in post.Keywords)
+        <meta property="article:tag" content="{{ keyword.Name }}">
+    @end
+
+    <script src="/js/highlight.js" defer></script>
+@end
+
+@insert('title', postTitle)
+@insert('description', post.Intro.truncate(147))
+
 @insert('content')
-    <h2>{{ post.Title }}</h2>
+    <like-post-button :post="{{ post.json() }}"></like-post-button>
+    <zoomed-image></zoomed-image>
+
+    <article>
+        <div
+            class="bg-gradient-to-r from-[#0f0f0f] to-[#383838] text-white print:!bg-none print:text-black"
+            @if(series)
+                style="background: linear-gradient(90deg, {{ series.ColorFrom }} 0%, {{ series.ColorTo }} 100%)"
+            @end
+        >
+            <div class="min-h-[64px]">
+                <navbar theme="{{ global.darkThemeCookie }}"></navbar>
+            </div>
+
+            <div class="py-[2rem] px-[1.5rem] lg:py-[6rem] lg:px-[1.5rem] container">
+                <div class="grid grid-cols-1 lg:grid-cols-2 relative gap-5">
+                    <div class="flex items-left justify-center flex-col text-[.7rem] lg:text-[1rem]">
+                        <h1
+                            style="font-size: {{ titleFontSize }}"
+                            class="leading-[1] font-light text-center lg:text-left"
+                        >
+                            {{ postTitle }}
+                        </h1>
+
+                        @component('~post/tags', {
+                            tags: post.Tags,
+                            class: 'text-sm mt-5 !gap-3',
+                        })
+
+                        <div class="mt-4">
+                            @component('~post/details', { post })
+
+                            @if(post.UpdatedAt != post.CreatedAt)
+                                <time
+                                    aria-label="Post updated date"
+                                    datetime="{{ post.UpdatedAt }}"
+                                    class="text-sm opacity-70"
+                                >
+                                    Updated {{ post.UpdatedAt }}
+                                </time>
+                            @end
+                        </div>
+
+                        <div class="mt-4">
+                            @if(series)
+                                <a
+                                    href="/series/{{ series.Slug }}"
+                                    class="px-3 py-1 rounded-md shadow-md text-md text-white"
+                                    style="background-color: {{ series.ColorTo }}"
+                                >
+                                    {{ series.Title }}:
+                                </a>
+                            @end
+
+                            @component('~edit-button', {
+                                url: '/admin/posts/%s/edit'.format(post.ID),
+                                class: 'ml-3',
+                            })
+                        </div>
+                    </div>
+
+                    <div>
+                        <img
+                            src="/{{ post.ImageLg }}"
+                            alt="Post {{ postTitle }}"
+                            width="1000"
+                            height="500"
+                            class="static mx-auto 2xl:absolute right-4 bottom-[-130px] w-[600px] xl:w-[700px] rounded-lg shadow-lg mt-7 lg:mt-0 z-10"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container pb-6">
+            <div class="grid w-full grid-cols-1 lg:grid-cols-[repeat(auto-fit,minmax(320px,auto))] gap-x-7 pt-10 print:pt-0 mx-auto max-w-[1230px] bg-page lg:-translate-y-8 lg:px-8 rounded-xl">
+                <div>
+                    <div class="post-content lg:prose-xl pr-2 lg:px-6"
+                        id="post-content"
+                        v-pre
+                    >
+                        {{ post.Content.raw() }}
+
+                        <small class="text-font-second opacity-90 inline-block leading-[1.5]">
+                            Keywords: {{ post.Keywords.join('name', ', ') }}
+                        </small>
+                    </div>
+
+                    <lazy-loading>
+                        <prev-next-post :post-id="{{ post.ID }}" />
+                    </lazy-loading>
+
+                    @component('~post/footer', { post })
+
+
+                    <nav role="navigation" class="print:hidden">
+                        @component('~post/sidebar-title')@slotYou might be interested@end@end
+
+                        <lazy-loading>
+                            <related-posts :post-id="{{ post.ID }}"></related-posts>
+                        </lazy-loading>
+                    </nav>
+                </div>
+
+                <div class="spacey-y-0 lg:space-y-10 px-3 h-full max-w-[500px] mx-auto lg:max-w-[320px] pt-0 2xl:pt-20">
+                    <div class="hidden lg:block">
+                        <nav class="min-h-[83px]">
+                            @component('~post/sidebar-title')@slotShare this post@end@end
+
+                            <share-post-buttons
+                                post-title="{{ postTitle }}"
+                                :post-id="{{ post.ID }}"
+                            />
+                        </nav>
+                    </div>
+
+                    @if(post.Video)
+                        <div class="mt-4">
+                            @component('~post/sidebar-title')@slotRelated video@end@end
+                            @component('~post/video', { video: post.Video })
+                        </div>
+                    @end
+
+                    <chapters slug="{{ post.Slug }}" />
+                </div>
+            </div>
+        </div>
+    </article>
 @end

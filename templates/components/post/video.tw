@@ -1,0 +1,31 @@
+<a href="{{ video.URL }}" class="block group" target="_blank">
+    <div class="relative">
+        <div class="min-h-[166px] bg-gray-100 rounded-lg">
+            <img
+                src="{{ video.Image }}"
+                alt="{{ video.Title }}"
+                width="480"
+                height="360"
+                class="w-full rounded-md shadow-md"
+            />
+        </div>
+
+        <img
+            src="/storage/icons/youtube.webp"
+            alt="YouTube logo"
+            class="transition-opacity group-hover:opacity-0 duration-300 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70px]"
+            width="100"
+            height="100"
+        />
+
+        <div class="opacity-0 group-hover:opacity-100 duration-300 transition-opacity absolute top-0 left-0 right-0 bottom-0 bg-black/50 rounded-lg">
+            <span class="inline-block drop-shadow-xs px-3 py-2 text-center text-lg w-[80%] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-bold bg-[#ff0100] rounded-xl">
+                Watch on YouTube
+            </span>
+        </div>
+    </div>
+
+    <span class="inline-block mt-2 text-md text-font-second font-sans font-bold">
+        {{ video.Title }}
+    </span>
+</a>
