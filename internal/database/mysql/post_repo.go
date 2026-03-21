@@ -9,15 +9,15 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-type Post struct {
+type PostRepo struct {
 	db *sqlx.DB
 }
 
-func NewPost(db *sqlx.DB) *Post {
-	return &Post{db: db}
+func NewPostRepo(db *sqlx.DB) *PostRepo {
+	return &PostRepo{db: db}
 }
 
-func (t *Post) List() ([]*model.Post, error) {
+func (tr *PostRepo) List() ([]*model.Post, error) {
 	posts := make([]*model.Post, 0, 1)
 
 	postsQuery := `
@@ -36,35 +36,35 @@ func (t *Post) List() ([]*model.Post, error) {
 		LIMIT 15
 	`
 
-	if err := t.db.Select(&posts, postsQuery); err != nil {
-		return nil, fmt.Errorf("Select posts error in List(): %v", err)
+	if err := tr.db.Select(&posts, postsQuery); err != nil {
+		return nil, fmt.Errorf("select posts error in List(): %v", err)
 	}
 
-	if err := t.attachTagsToPosts(posts); err != nil {
+	if err := tr.attachTagsToPosts(posts); err != nil {
 		return nil, err
 	}
 
-	t.setAccessors(posts)
+	tr.setAccessors(posts)
 
 	return posts, nil
 }
 
-func (t *Post) Single(slug string) (*model.Post, error) {
+func (tr *PostRepo) Single(slug string) (*model.Post, error) {
 	var post model.Post
 
 	query := `SELECT * FROM posts WHERE slug = ?`
-	if err := t.db.Get(&post, query, slug); err != nil {
-		return nil, fmt.Errorf("Select post error in Single(): %v", err)
+	if err := tr.db.Get(&post, query, slug); err != nil {
+		return nil, fmt.Errorf("select post error in Single(): %v", err)
 	}
 
-	if err := t.attachTagsToPost(&post); err != nil {
+	if err := tr.attachTagsToPost(&post); err != nil {
 		return nil, err
 	}
 
 	return &post, nil
 }
 
-func (t *Post) Latest() ([]*model.Post, error) {
+func (tr *PostRepo) Latest() ([]*model.Post, error) {
 	posts := make([]*model.Post, 0, 2)
 
 	postsQuery := `
@@ -83,20 +83,20 @@ func (t *Post) Latest() ([]*model.Post, error) {
 		LIMIT 2
 	`
 
-	if err := t.db.Select(&posts, postsQuery); err != nil {
-		return nil, fmt.Errorf("Select posts error in Latest(): %v", err)
+	if err := tr.db.Select(&posts, postsQuery); err != nil {
+		return nil, fmt.Errorf("select posts error in Latest(): %v", err)
 	}
 
-	if err := t.attachTagsToPosts(posts); err != nil {
+	if err := tr.attachTagsToPosts(posts); err != nil {
 		return nil, err
 	}
 
-	t.setAccessors(posts)
+	tr.setAccessors(posts)
 
 	return posts, nil
 }
 
-func (t *Post) attachTagsToPosts(posts []*model.Post) error {
+func (tr *PostRepo) attachTagsToPosts(posts []*model.Post) error {
 	postIDs := utils.ExtractIDs(posts)
 	idsStr := utils.IntsToStrings(postIDs)
 
@@ -108,8 +108,8 @@ func (t *Post) attachTagsToPosts(posts []*model.Post) error {
 	`
 
 	tags := make([]model.Tag, 0, 2)
-	if err := t.db.Select(&tags, query, strings.Join(idsStr, ",")); err != nil {
-		return fmt.Errorf("Select tags error: %v", err)
+	if err := tr.db.Select(&tags, query, strings.Join(idsStr, ",")); err != nil {
+		return fmt.Errorf("select tags error in attachTagsToPosts: %v", err)
 	}
 
 	// Group tags by post ID
@@ -126,7 +126,7 @@ func (t *Post) attachTagsToPosts(posts []*model.Post) error {
 	return nil
 }
 
-func (t *Post) attachTagsToPost(post *model.Post) error {
+func (tr *PostRepo) attachTagsToPost(post *model.Post) error {
 	query := `
 		SELECT t.id, t.name, t.color, t.title, pt.post_id as pivot_post_id
 		FROM tags t 
@@ -135,8 +135,8 @@ func (t *Post) attachTagsToPost(post *model.Post) error {
 	`
 
 	tags := make([]model.Tag, 0, 2)
-	if err := t.db.Select(&tags, query, post.ID); err != nil {
-		return fmt.Errorf("Select tags error: %v", err)
+	if err := tr.db.Select(&tags, query, post.ID); err != nil {
+		return fmt.Errorf("select tags error in attachTagsToPost: %v", err)
 	}
 
 	// Group tags by post ID
@@ -150,7 +150,7 @@ func (t *Post) attachTagsToPost(post *model.Post) error {
 	return nil
 }
 
-func (t *Post) setAccessors(posts []*model.Post) {
+func (tr *PostRepo) setAccessors(posts []*model.Post) {
 	for i := range posts {
 		posts[i].SetAccessors()
 	}

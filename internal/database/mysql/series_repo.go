@@ -9,15 +9,15 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-type Series struct {
+type SeriesRepo struct {
 	db *sqlx.DB
 }
 
-func NewSeries(db *sqlx.DB) *Series {
-	return &Series{db: db}
+func NewSeriesRepo(db *sqlx.DB) *SeriesRepo {
+	return &SeriesRepo{db: db}
 }
 
-func (s *Series) List() ([]*model.Series, error) {
+func (sr *SeriesRepo) List() ([]*model.Series, error) {
 	seriesQuery := `
 		SELECT 
 			s.*,
@@ -29,18 +29,18 @@ func (s *Series) List() ([]*model.Series, error) {
 	`
 
 	series := make([]*model.Series, 0, 1)
-	if err := s.db.Select(&series, seriesQuery); err != nil {
-		return nil, fmt.Errorf("Select series error in List(): %v", err)
+	if err := sr.db.Select(&series, seriesQuery); err != nil {
+		return nil, fmt.Errorf("select series error in List(): %v", err)
 	}
 
-	if err := s.attachPosts(series); err != nil {
+	if err := sr.attachPosts(series); err != nil {
 		return nil, err
 	}
 
 	return series, nil
 }
 
-func (t *Series) attachPosts(series []*model.Series) error {
+func (sr *SeriesRepo) attachPosts(series []*model.Series) error {
 	seriesIDs := utils.ExtractIDs(series)
 	idsStr := utils.IntsToStrings(seriesIDs)
 
@@ -52,8 +52,8 @@ func (t *Series) attachPosts(series []*model.Series) error {
 	`, strings.Join(idsStr, ","))
 
 	posts := make([]model.Post, 0, 2)
-	if err := t.db.Select(&posts, query); err != nil {
-		return fmt.Errorf("Select posts error: %v", err)
+	if err := sr.db.Select(&posts, query); err != nil {
+		return fmt.Errorf("select posts error in attachPosts: %v", err)
 	}
 
 	// Appends posts to series

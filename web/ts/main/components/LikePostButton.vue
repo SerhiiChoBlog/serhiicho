@@ -47,12 +47,12 @@ function fetchIsLiked(): void {
     loading.value = true
 
     const params = {
-        post_id: post.id,
+        postID: post.id,
         secret: Auth ? Auth.secret : null,
     }
 
     axios
-        .get<GetPostLikesResponse>('/api/post-likes/is-liked', { params })
+        .post<GetPostLikesResponse>('/api/post-likes/is-liked', { ...params })
         .then(res => {
             isLiked.value = res.data.liked
             likes.value = res.data.likes

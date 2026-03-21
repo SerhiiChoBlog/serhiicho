@@ -8,29 +8,41 @@ import (
 )
 
 type Database struct {
-	Post   PostRepository
-	Tag    TagRepository
-	Series SeriesRepository
+	Post     PostRepo
+	PostLike PostLikeRepo
+	Tag      TagRepo
+	Series   SeriesRepo
+	User     UserRepo
 }
 
 func NewMySql(db *sqlx.DB) *Database {
 	return &Database{
-		Post:   mysql.NewPost(db),
-		Tag:    mysql.NewTag(db),
-		Series: mysql.NewSeries(db),
+		Post:     mysql.NewPostRepo(db),
+		PostLike: mysql.NewPostLikeRepo(db),
+		Tag:      mysql.NewTagRepo(db),
+		Series:   mysql.NewSeriesRepo(db),
 	}
 }
 
-type PostRepository interface {
+type PostRepo interface {
 	Latest() ([]*model.Post, error)
 	List() ([]*model.Post, error)
 	Single(slug string) (*model.Post, error)
 }
 
-type SeriesRepository interface {
+type SeriesRepo interface {
 	List() ([]*model.Series, error)
 }
 
-type TagRepository interface {
+type TagRepo interface {
 	ByName(name string) (*model.Tag, error)
+}
+
+type UserRepo interface {
+	BySecret(secret string) (*model.User, error)
+}
+
+type PostLikeRepo interface {
+	CountPostLikes(postID int) (int, error)
+	UserLikedPost(postID, userID int) (bool, error)
 }

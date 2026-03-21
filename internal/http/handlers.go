@@ -14,19 +14,15 @@ func (s *server) homeHandler(w http.ResponseWriter, _ *http.Request) {
 		log.Fatalln(err)
 	}
 
-	data := map[string]any{
+	s.tpl.Response(w, "~home", map[string]any{
 		"latest": latest,
-	}
-
-	s.tpl.Response(w, "~home", data)
+	})
 }
 
 func (s *server) aboutMeHandler(w http.ResponseWriter, _ *http.Request) {
-	data := map[string]any{
+	s.tpl.Response(w, "~about-me", map[string]any{
 		"technologies": s.conf.Technologies,
-	}
-
-	s.tpl.Response(w, "~about-me", data)
+	})
 }
 
 func (s *server) postsHandler(w http.ResponseWriter, r *http.Request) {
@@ -52,14 +48,12 @@ func (s *server) postsHandler(w http.ResponseWriter, r *http.Request) {
 		series = posts[0].Series
 	}
 
-	data := map[string]any{
+	s.tpl.Response(w, "~posts/list", map[string]any{
 		"title":  title,
 		"posts":  posts,
 		"series": series,
 		"tag":    tag,
-	}
-
-	s.tpl.Response(w, "~posts/list", data)
+	})
 }
 
 func (s *server) postHandler(w http.ResponseWriter, r *http.Request) {
@@ -85,14 +79,12 @@ func (s *server) postHandler(w http.ResponseWriter, r *http.Request) {
 		postTitle = series.Title
 	}
 
-	data := map[string]any{
+	s.tpl.Response(w, "~posts/single", map[string]any{
 		"post":          post,
 		"postTitle":     postTitle,
 		"titleFontSize": getPostTitleFontSize(post.Title),
 		"series":        series,
-	}
-
-	s.tpl.Response(w, "~posts/single", data)
+	})
 }
 
 func (s *server) seriesHandler(w http.ResponseWriter, r *http.Request) {
@@ -101,9 +93,7 @@ func (s *server) seriesHandler(w http.ResponseWriter, r *http.Request) {
 		log.Fatalln(err)
 	}
 
-	data := map[string]any{
+	s.tpl.Response(w, "~series/list", map[string]any{
 		"series": series,
-	}
-
-	s.tpl.Response(w, "~series/list", data)
+	})
 }

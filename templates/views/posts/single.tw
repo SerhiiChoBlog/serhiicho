@@ -32,7 +32,7 @@
 @insert('description', post.Intro.truncate(147))
 
 @insert('content')
-    <like-post-button :post="{{ post.json() }}"></like-post-button>
+    <like-post-button :post="{{ post.camel().json() }}"></like-post-button>
     <zoomed-image></zoomed-image>
 
     <article>

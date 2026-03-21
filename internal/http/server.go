@@ -33,6 +33,9 @@ func (s *server) ListenAndServe(addr string) error {
 	s.mux.HandleFunc("GET /posts/{slug}", s.postHandler)
 	s.mux.HandleFunc("GET /series", s.seriesHandler)
 
+	// API routes
+	s.mux.HandleFunc("POST /api/post-likes/is-liked", s.postLikesIsLikedHandler)
+
 	fmt.Printf("[Server ] running on http://localhost:%s\n", addr)
 
 	handler := chain(s.mux, stripTrailingSlash)
