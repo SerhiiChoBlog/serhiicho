@@ -26,12 +26,14 @@ func NewMySql(db *sqlx.DB) *Database {
 
 type PostRepo interface {
 	Latest() ([]*model.Post, error)
-	List() ([]*model.Post, error)
+	All() ([]*model.Post, error)
 	Single(slug string) (*model.Post, error)
+	PostsForSeries(seriesIDs []int) ([]*model.Post, error)
 }
 
 type SeriesRepo interface {
-	List() ([]*model.Series, error)
+	All() ([]*model.Series, error)
+	PostSeries(postID int) ([]*model.Series, error)
 }
 
 type TagRepo interface {

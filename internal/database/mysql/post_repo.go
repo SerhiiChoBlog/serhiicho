@@ -17,7 +17,7 @@ func NewPostRepo(db *sqlx.DB) *PostRepo {
 	return &PostRepo{db: db}
 }
 
-func (tr *PostRepo) List() ([]*model.Post, error) {
+func (tr *PostRepo) All() ([]*model.Post, error) {
 	posts := make([]*model.Post, 0, 1)
 
 	postsQuery := `
@@ -37,7 +37,7 @@ func (tr *PostRepo) List() ([]*model.Post, error) {
 	`
 
 	if err := tr.db.Select(&posts, postsQuery); err != nil {
-		return nil, fmt.Errorf("select posts error in List(): %v", err)
+		return nil, fmt.Errorf("post_repo All() error: %v", err)
 	}
 
 	if err := tr.attachTagsToPosts(posts); err != nil {
@@ -54,7 +54,7 @@ func (tr *PostRepo) Single(slug string) (*model.Post, error) {
 
 	query := `SELECT * FROM posts WHERE slug = ?`
 	if err := tr.db.Get(&post, query, slug); err != nil {
-		return nil, fmt.Errorf("select post error in Single(): %v", err)
+		return nil, fmt.Errorf("post_repo Single() error: %v", err)
 	}
 
 	if err := tr.attachTagsToPost(&post); err != nil {
@@ -84,7 +84,7 @@ func (tr *PostRepo) Latest() ([]*model.Post, error) {
 	`
 
 	if err := tr.db.Select(&posts, postsQuery); err != nil {
-		return nil, fmt.Errorf("select posts error in Latest(): %v", err)
+		return nil, fmt.Errorf("post_repo Latest() error: %v", err)
 	}
 
 	if err := tr.attachTagsToPosts(posts); err != nil {
@@ -96,12 +96,30 @@ func (tr *PostRepo) Latest() ([]*model.Post, error) {
 	return posts, nil
 }
 
+func (tr *PostRepo) PostsForSeries(seriesIDs []int) ([]*model.Post, error) {
+	idsStr := utils.IntsToStrings(seriesIDs)
+
+	query := fmt.Sprintf(`
+		SELECT p.*, ps.series_id
+		FROM posts p
+		JOIN post_series ps ON p.id = ps.post_id
+		WHERE ps.series_id IN (%s)
+	`, strings.Join(idsStr, ","))
+
+	posts := make([]*model.Post, 0, 2)
+	if err := tr.db.Select(&posts, query); err != nil {
+		return nil, fmt.Errorf("post_repo PostsForSeries() error: %v", err)
+	}
+
+	return posts, nil
+}
+
 func (tr *PostRepo) attachTagsToPosts(posts []*model.Post) error {
 	postIDs := utils.ExtractIDs(posts)
 	idsStr := utils.IntsToStrings(postIDs)
 
 	query := `
-		SELECT t.id, t.name, t.color, t.title, pt.post_id as pivot_post_id
+		SELECT t.id, t.name, t.color, t.title, pt.post_id
 		FROM tags t 
 		JOIN post_tag pt ON t.id = pt.tag_id 
 		WHERE pt.post_id IN (?);
@@ -115,7 +133,7 @@ func (tr *PostRepo) attachTagsToPosts(posts []*model.Post) error {
 	// Group tags by post ID
 	tagsByPost := make(map[int][]model.Tag)
 	for _, tag := range tags {
-		tagsByPost[tag.PivotPostID] = append(tagsByPost[tag.PivotPostID], tag)
+		tagsByPost[tag.PostID] = append(tagsByPost[tag.PostID], tag)
 	}
 
 	// Attach tags to posts
@@ -128,10 +146,12 @@ func (tr *PostRepo) attachTagsToPosts(posts []*model.Post) error {
 
 func (tr *PostRepo) attachTagsToPost(post *model.Post) error {
 	query := `
-		SELECT t.id, t.name, t.color, t.title, pt.post_id as pivot_post_id
+		SELECT
+			t.id, t.name, t.color, t.title,
+			pt.post_id
 		FROM tags t 
 		JOIN post_tag pt ON t.id = pt.tag_id 
-		WHERE pt.post_id = ?;
+		WHERE pt.post_id = ?
 	`
 
 	tags := make([]model.Tag, 0, 2)
@@ -142,7 +162,7 @@ func (tr *PostRepo) attachTagsToPost(post *model.Post) error {
 	// Group tags by post ID
 	tagsByPost := make(map[int][]model.Tag)
 	for _, tag := range tags {
-		tagsByPost[tag.PivotPostID] = append(tagsByPost[tag.PivotPostID], tag)
+		tagsByPost[tag.PostID] = append(tagsByPost[tag.PostID], tag)
 	}
 
 	post.Tags = tagsByPost[post.ID]

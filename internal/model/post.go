@@ -22,7 +22,7 @@ type Post struct {
 	CreatedAt           time.Time              `json:"created_at" db:"created_at"`
 	UpdatedAt           time.Time              `json:"updated_at" db:"updated_at"`
 	PublishedAt         time.Time              `json:"published_at" db:"published_at"`
-	Series              []Series               `json:"series" db:"-"`
+	Series              []*Series              `json:"series" db:"-"`
 	PostLikes           []PostLike             `json:"post_likes" db:"-"`
 	Video               *Video                 `json:"video,omitempty" db:"-"`
 	Images              []PostContentImage     `json:"images" db:"-"`
@@ -33,7 +33,7 @@ type Post struct {
 	PostPublication     *PostPublication       `json:"post_publication,omitempty" db:"-"`
 	Comments            []Comment              `json:"comments" db:"-"`
 	PrettyCreatedAt     string                 `json:"pretty_created_at" db:"-"`
-	PivotSeriesID       int                    `json:"pivot_series_id" db:"pivot_series_id"` // from pivot table
+	SeriesID            int                    `json:"series_id" db:"series_id"` // from pivot table
 }
 
 // SetAccessors sets dynamic fields that don't exist in database but

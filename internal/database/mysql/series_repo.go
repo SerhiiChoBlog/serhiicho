@@ -3,8 +3,6 @@ package mysql
 import (
 	"fmt"
 	"serhii/internal/model"
-	"serhii/internal/utils"
-	"strings"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -17,7 +15,7 @@ func NewSeriesRepo(db *sqlx.DB) *SeriesRepo {
 	return &SeriesRepo{db: db}
 }
 
-func (sr *SeriesRepo) List() ([]*model.Series, error) {
+func (sr *SeriesRepo) All() ([]*model.Series, error) {
 	seriesQuery := `
 		SELECT 
 			s.*,
@@ -30,41 +28,26 @@ func (sr *SeriesRepo) List() ([]*model.Series, error) {
 
 	series := make([]*model.Series, 0, 1)
 	if err := sr.db.Select(&series, seriesQuery); err != nil {
-		return nil, fmt.Errorf("select series error in List(): %v", err)
-	}
-
-	if err := sr.attachPosts(series); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("select series error in All(): %v", err)
 	}
 
 	return series, nil
 }
 
-func (sr *SeriesRepo) attachPosts(series []*model.Series) error {
-	seriesIDs := utils.ExtractIDs(series)
-	idsStr := utils.IntsToStrings(seriesIDs)
+func (sr *SeriesRepo) PostSeries(postID int) ([]*model.Series, error) {
+	query := `
+		SELECT
+			s.id, s.title, s.slug, s.color_from, s.color_to,
+			ps.post_id, ps.part
+		FROM series s
+		JOIN post_series ps ON s.id = ps.series_id 
+		WHERE ps.post_id = ?
+	`
 
-	query := fmt.Sprintf(`
-		SELECT p.*, ps.series_id as pivot_series_id
-		FROM posts p
-		JOIN post_series ps ON p.id = ps.post_id
-		WHERE ps.series_id IN (%s)
-	`, strings.Join(idsStr, ","))
-
-	posts := make([]model.Post, 0, 2)
-	if err := sr.db.Select(&posts, query); err != nil {
-		return fmt.Errorf("select posts error in attachPosts: %v", err)
+	series := make([]*model.Series, 0, 4)
+	if err := sr.db.Select(&series, query, postID); err != nil {
+		return nil, fmt.Errorf("select series error in PostSeries: %v", err)
 	}
 
-	// Appends posts to series
-	for _, s := range series {
-		for _, post := range posts {
-			if post.PivotSeriesID != s.ID {
-				continue
-			}
-			s.Posts = append(s.Posts, post)
-		}
-	}
-
-	return nil
+	return series, nil
 }

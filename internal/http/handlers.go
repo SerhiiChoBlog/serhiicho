@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"serhii/internal/model"
+	"serhii/internal/utils"
 	"strings"
 )
 
@@ -26,7 +27,7 @@ func (s *server) aboutMeHandler(w http.ResponseWriter, _ *http.Request) {
 }
 
 func (s *server) postsHandler(w http.ResponseWriter, r *http.Request) {
-	posts, err := s.db.Post.List()
+	posts, err := s.db.Post.All()
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -43,12 +44,12 @@ func (s *server) postsHandler(w http.ResponseWriter, r *http.Request) {
 		title = fmt.Sprintf("Read about %s", tag.Title)
 	}
 
-	var series []model.Series
+	var series []*model.Series
 	if len(posts) > 0 {
 		series = posts[0].Series
 	}
 
-	s.tpl.Response(w, "~posts/list", map[string]any{
+	s.tpl.Response(w, "~posts/posts", map[string]any{
 		"title":  title,
 		"posts":  posts,
 		"series": series,
@@ -69,9 +70,16 @@ func (s *server) postHandler(w http.ResponseWriter, r *http.Request) {
 		log.Fatalln(err)
 	}
 
+	postSeries, err := s.db.Series.PostSeries(post.ID)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	post.Series = postSeries
+
 	var series *model.Series
 	if len(post.Series) > 0 {
-		series = &post.Series[0]
+		series = post.Series[0]
 	}
 
 	postTitle := post.Title
@@ -79,7 +87,7 @@ func (s *server) postHandler(w http.ResponseWriter, r *http.Request) {
 		postTitle = series.Title
 	}
 
-	s.tpl.Response(w, "~posts/single", map[string]any{
+	s.tpl.Response(w, "~posts/post", map[string]any{
 		"post":          post,
 		"postTitle":     postTitle,
 		"titleFontSize": getPostTitleFontSize(post.Title),
@@ -88,8 +96,18 @@ func (s *server) postHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *server) seriesHandler(w http.ResponseWriter, r *http.Request) {
-	series, err := s.db.Series.List()
+	series, err := s.db.Series.All()
 	if err != nil {
+		log.Fatalln(err)
+	}
+
+	seriesIDs := utils.ExtractIDs(series)
+	posts, err := s.db.Post.PostsForSeries(seriesIDs)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	if err := model.AttachPostsToSeries(posts, series); err != nil {
 		log.Fatalln(err)
 	}
 
