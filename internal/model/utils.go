@@ -14,7 +14,7 @@ func AttachPostsToSeries(posts []*Post, series []*Series) error {
 
 func AttachTagsToPosts(tags []*Tag, posts []*Post) error {
 	// Group tags by post ID
-	tagsByPost := make(map[int][]Tag)
+	tagsByPost := make(map[int][]*Tag)
 	for _, tag := range tags {
 		tagsByPost[tag.PostID] = append(tagsByPost[tag.PostID], tag)
 	}

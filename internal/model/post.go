@@ -23,15 +23,15 @@ type Post struct {
 	UpdatedAt           time.Time              `json:"updated_at" db:"updated_at"`
 	PublishedAt         time.Time              `json:"published_at" db:"published_at"`
 	Series              []*Series              `json:"series" db:"-"`
-	PostLikes           []PostLike             `json:"post_likes" db:"-"`
+	PostLikes           []*PostLike            `json:"post_likes" db:"-"`
 	Video               *Video                 `json:"video,omitempty" db:"-"`
-	Images              []PostContentImage     `json:"images" db:"-"`
-	SocialShares        []SocialShare          `json:"social_shares" db:"-"`
-	PostViews           []PostView             `json:"post_views" db:"-"`
-	Tags                []Tag                  `json:"tags" db:"-"`
-	Keywords            []Keyword              `json:"keywords" db:"-"`
+	Images              []*PostContentImage    `json:"images" db:"-"`
+	SocialShares        []*SocialShare         `json:"social_shares" db:"-"`
+	PostViews           []*PostView            `json:"post_views" db:"-"`
+	Tags                []*Tag                 `json:"tags" db:"-"`
+	Keywords            []*Keyword             `json:"keywords" db:"-"`
 	PostPublication     *PostPublication       `json:"post_publication,omitempty" db:"-"`
-	Comments            []Comment              `json:"comments" db:"-"`
+	Comments            []*Comment             `json:"comments" db:"-"`
 	PrettyCreatedAt     string                 `json:"pretty_created_at" db:"-"`
 	SeriesID            int                    `json:"series_id" db:"series_id"` // from pivot table
 }

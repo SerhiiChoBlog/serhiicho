@@ -17,12 +17,12 @@ func NewTagRepo(db *sqlx.DB) *TagRepo {
 	return &TagRepo{db: db}
 }
 
-func (tr *TagRepo) ByName(name string) (*model.Tag, error) {
+func (tr *TagRepo) SingleByName(name string) (*model.Tag, error) {
 	var tag model.Tag
 
 	query := "SELECT * FROM tags WHERE name = ?"
 	if err := tr.db.Get(&tag, query, name); err != nil {
-		return nil, fmt.Errorf("get tag error in ByName(): %v", err)
+		return nil, fmt.Errorf("tag_repo SingleByName() error: %v", err)
 	}
 
 	return &tag, nil

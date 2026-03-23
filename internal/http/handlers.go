@@ -36,7 +36,7 @@ func (s *server) postsHandler(w http.ResponseWriter, r *http.Request) {
 	var tag *model.Tag
 
 	if urlTag != "" {
-		tag, err = s.db.TagRepo.ByName(urlTag)
+		tag, err = s.db.TagRepo.SingleByName(urlTag)
 		if err != nil {
 			log.Fatalln(err)
 		}

@@ -17,7 +17,7 @@ func (s *server) postLikesIsLikedHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	likes, err := s.db.PostLikeRepo.CountPostLikes(req.PostID)
+	likes, err := s.db.PostLikeRepo.CountLikes(req.PostID)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -29,7 +29,7 @@ func (s *server) postLikesIsLikedHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	user, err := s.db.UserRepo.BySecret(req.Secret)
+	user, err := s.db.UserRepo.SingleBySecret(req.Secret)
 	if err != nil {
 		log.Fatalln(err)
 	}
