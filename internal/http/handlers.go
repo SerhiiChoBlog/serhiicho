@@ -14,8 +14,14 @@ func (s *server) homeHandler(w http.ResponseWriter, _ *http.Request) {
 		log.Fatalln(err)
 	}
 
+	latestVideos, err := s.db.VideoRepo.Latest()
+	if err != nil {
+		log.Fatalln(err)
+	}
+
 	s.tpl.Response(w, "~home", map[string]any{
-		"latest": latest,
+		"latest":       latest,
+		"latestVideos": latestVideos,
 	})
 }
 
