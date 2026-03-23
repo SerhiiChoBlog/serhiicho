@@ -9,7 +9,7 @@ import (
 )
 
 func (s *server) homeHandler(w http.ResponseWriter, _ *http.Request) {
-	latest, err := s.db.Post.Latest()
+	latest, err := s.db.PostRepo.Latest()
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -26,7 +26,7 @@ func (s *server) aboutMeHandler(w http.ResponseWriter, _ *http.Request) {
 }
 
 func (s *server) postsHandler(w http.ResponseWriter, r *http.Request) {
-	posts, err := s.db.Post.All()
+	posts, err := s.db.PostRepo.All()
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -36,7 +36,7 @@ func (s *server) postsHandler(w http.ResponseWriter, r *http.Request) {
 	var tag *model.Tag
 
 	if urlTag != "" {
-		tag, err = s.db.Tag.ByName(urlTag)
+		tag, err = s.db.TagRepo.ByName(urlTag)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -64,12 +64,12 @@ func (s *server) postHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	post, err := s.db.Post.Single(slug)
+	post, err := s.db.PostRepo.Single(slug)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	postSeries, err := s.db.Series.PostSeries(post.ID)
+	postSeries, err := s.db.SeriesRepo.PostSeries(post.ID)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -95,12 +95,12 @@ func (s *server) postHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *server) seriesHandler(w http.ResponseWriter, r *http.Request) {
-	series, err := s.db.Series.WithPosts()
+	series, err := s.db.SeriesRepo.WithPosts(s.db.PostRepo)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	s.tpl.Response(w, "~series/list", map[string]any{
+	s.tpl.Response(w, "~series/series", map[string]any{
 		"series": series,
 	})
 }

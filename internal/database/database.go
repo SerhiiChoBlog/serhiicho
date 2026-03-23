@@ -5,18 +5,18 @@ import (
 )
 
 type Database struct {
-	Post     *PostRepo
-	PostLike *PostLikeRepo
-	Tag      *TagRepo
-	Series   *SeriesRepo
-	User     *UserRepo
+	PostRepo     *PostRepo
+	PostLikeRepo *PostLikeRepo
+	TagRepo      *TagRepo
+	SeriesRepo   *SeriesRepo
+	UserRepo     *UserRepo
 }
 
 func NewDatabase(db *sqlx.DB) *Database {
 	return &Database{
-		Post:     NewPostRepo(db),
-		PostLike: NewPostLikeRepo(db),
-		Tag:      NewTagRepo(db),
-		Series:   NewSeriesRepo(db),
+		PostRepo:     NewPostRepo(db),
+		PostLikeRepo: NewPostLikeRepo(db),
+		TagRepo:      NewTagRepo(db),
+		SeriesRepo:   NewSeriesRepo(db),
 	}
 }

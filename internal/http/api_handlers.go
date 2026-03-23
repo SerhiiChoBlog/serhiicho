@@ -17,7 +17,7 @@ func (s *server) postLikesIsLikedHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	likes, err := s.db.PostLike.CountPostLikes(req.PostID)
+	likes, err := s.db.PostLikeRepo.CountPostLikes(req.PostID)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -29,7 +29,7 @@ func (s *server) postLikesIsLikedHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	user, err := s.db.User.BySecret(req.Secret)
+	user, err := s.db.UserRepo.BySecret(req.Secret)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -38,7 +38,7 @@ func (s *server) postLikesIsLikedHandler(w http.ResponseWriter, r *http.Request)
 		log.Fatalf("user with secret '%s' doesn't exist", req.Secret)
 	}
 
-	resp["liked"], err = s.db.PostLike.UserLikedPost(req.PostID, user.ID)
+	resp["liked"], err = s.db.PostLikeRepo.UserLikedPost(req.PostID, user.ID)
 	if err != nil {
 		log.Fatalln(err)
 	}

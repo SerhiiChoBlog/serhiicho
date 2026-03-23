@@ -96,7 +96,7 @@ func (tr *PostRepo) Latest() ([]*model.Post, error) {
 	return posts, nil
 }
 
-func (tr *PostRepo) PostsForSeries(seriesIDs []int) ([]*model.Post, error) {
+func (tr *PostRepo) FromSeries(seriesIDs []int) ([]*model.Post, error) {
 	idsStr := utils.IntsToStrings(seriesIDs)
 
 	query := fmt.Sprintf(`
