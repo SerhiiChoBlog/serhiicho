@@ -51,4 +51,26 @@
             </div>
         @end
     @end
+
+    @component('~home/section', {
+        title: "Best of the month",
+        intro: "The most viewed articles in previous month",
+        isDark: true,
+    })
+        @slot
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6 max-w-6xl mx-auto">
+            </div>
+        @end
+    @end
+
+    @component('~home/section', {
+        title: "You might like",
+        intro: "Articles which I think you might want to read",
+        isDark: false,
+    })
+        @slot
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+            </div>
+        @end
+    @end
 @end
