@@ -2,7 +2,6 @@ package database
 
 import (
 	"fmt"
-	"log"
 	"serhii/internal/model"
 	"serhii/internal/utils"
 
@@ -30,26 +29,26 @@ func (sr *SeriesRepo) All() ([]*model.Series, error) {
 
 	series := make([]*model.Series, 0, 1)
 	if err := sr.db.Select(&series, seriesQuery); err != nil {
-		return nil, fmt.Errorf("select series error in All(): %v", err)
+		return nil, fmt.Errorf("series_repo All() error: %v", err)
 	}
 
 	return series, nil
 }
 
-func (sr *SeriesRepo) WithPosts(postRepo *PostRepo) ([]*model.Series, error) {
+func (sr *SeriesRepo) AllWithPosts(postRepo *PostRepo) ([]*model.Series, error) {
 	series, err := sr.All()
 	if err != nil {
 		return nil, err
 	}
 
 	seriesIDs := utils.ExtractIDs(series)
-	posts, err := postRepo.FromSeries(seriesIDs)
+	posts, err := postRepo.ForSeries(seriesIDs)
 	if err != nil {
-		log.Fatalln(err)
+		return nil, err
 	}
 
 	if err := model.AttachPostsToSeries(posts, series); err != nil {
-		log.Fatalln(err)
+		return nil, err
 	}
 
 	return series, nil
@@ -67,7 +66,7 @@ func (sr *SeriesRepo) PostSeries(postID int) ([]*model.Series, error) {
 
 	series := make([]*model.Series, 0, 4)
 	if err := sr.db.Select(&series, query, postID); err != nil {
-		return nil, fmt.Errorf("select series error in PostSeries: %v", err)
+		return nil, fmt.Errorf("series_repo PostSeries() error: %v", err)
 	}
 
 	return series, nil

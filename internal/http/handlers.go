@@ -9,7 +9,7 @@ import (
 )
 
 func (s *server) homeHandler(w http.ResponseWriter, _ *http.Request) {
-	latest, err := s.db.PostRepo.Latest()
+	latest, err := s.db.PostRepo.LatestWithTags(s.db.TagRepo)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -26,7 +26,7 @@ func (s *server) aboutMeHandler(w http.ResponseWriter, _ *http.Request) {
 }
 
 func (s *server) postsHandler(w http.ResponseWriter, r *http.Request) {
-	posts, err := s.db.PostRepo.All()
+	posts, err := s.db.PostRepo.AllWithTags(s.db.TagRepo)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -64,7 +64,7 @@ func (s *server) postHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	post, err := s.db.PostRepo.Single(slug)
+	post, err := s.db.PostRepo.SingleWithTags(slug, s.db.TagRepo)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -95,7 +95,7 @@ func (s *server) postHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *server) seriesHandler(w http.ResponseWriter, r *http.Request) {
-	series, err := s.db.SeriesRepo.WithPosts(s.db.PostRepo)
+	series, err := s.db.SeriesRepo.AllWithPosts(s.db.PostRepo)
 	if err != nil {
 		log.Fatalln(err)
 	}

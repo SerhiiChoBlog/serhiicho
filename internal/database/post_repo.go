@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"log"
 	"serhii/internal/model"
 	"serhii/internal/utils"
 	"strings"
@@ -17,7 +18,7 @@ func NewPostRepo(db *sqlx.DB) *PostRepo {
 	return &PostRepo{db: db}
 }
 
-func (tr *PostRepo) All() ([]*model.Post, error) {
+func (pr *PostRepo) All() ([]*model.Post, error) {
 	posts := make([]*model.Post, 0, 1)
 
 	postsQuery := `
@@ -36,35 +37,59 @@ func (tr *PostRepo) All() ([]*model.Post, error) {
 		LIMIT 15
 	`
 
-	if err := tr.db.Select(&posts, postsQuery); err != nil {
+	if err := pr.db.Select(&posts, postsQuery); err != nil {
 		return nil, fmt.Errorf("post_repo All() error: %v", err)
 	}
 
-	if err := tr.attachTagsToPosts(posts); err != nil {
-		return nil, err
-	}
-
-	tr.setAccessors(posts)
+	pr.setAccessors(posts)
 
 	return posts, nil
 }
 
-func (tr *PostRepo) Single(slug string) (*model.Post, error) {
+func (pr *PostRepo) AllWithTags(tagRepo *TagRepo) ([]*model.Post, error) {
+	posts, err := pr.All()
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	tags, err := tagRepo.ForPosts(utils.ExtractIDs(posts))
+	if err != nil {
+		return nil, err
+	}
+
+	model.AttachTagsToPosts(tags, posts)
+
+	return posts, nil
+}
+
+func (pr *PostRepo) Single(slug string) (*model.Post, error) {
 	var post model.Post
 
 	query := `SELECT * FROM posts WHERE slug = ?`
-	if err := tr.db.Get(&post, query, slug); err != nil {
+	if err := pr.db.Get(&post, query, slug); err != nil {
 		return nil, fmt.Errorf("post_repo Single() error: %v", err)
-	}
-
-	if err := tr.attachTagsToPost(&post); err != nil {
-		return nil, err
 	}
 
 	return &post, nil
 }
 
-func (tr *PostRepo) Latest() ([]*model.Post, error) {
+func (pr *PostRepo) SingleWithTags(slug string, tagRepo *TagRepo) (*model.Post, error) {
+	post, err := pr.Single(slug)
+	if err != nil {
+		return nil, err
+	}
+
+	tags, err := tagRepo.ForPosts([]int{post.ID})
+	if err != nil {
+		return nil, err
+	}
+
+	model.AttachTagsToPosts(tags, []*model.Post{post})
+
+	return post, nil
+}
+
+func (pr *PostRepo) Latest() ([]*model.Post, error) {
 	posts := make([]*model.Post, 0, 2)
 
 	postsQuery := `
@@ -83,20 +108,32 @@ func (tr *PostRepo) Latest() ([]*model.Post, error) {
 		LIMIT 2
 	`
 
-	if err := tr.db.Select(&posts, postsQuery); err != nil {
+	if err := pr.db.Select(&posts, postsQuery); err != nil {
 		return nil, fmt.Errorf("post_repo Latest() error: %v", err)
 	}
 
-	if err := tr.attachTagsToPosts(posts); err != nil {
-		return nil, err
-	}
-
-	tr.setAccessors(posts)
+	pr.setAccessors(posts)
 
 	return posts, nil
 }
 
-func (tr *PostRepo) FromSeries(seriesIDs []int) ([]*model.Post, error) {
+func (pr *PostRepo) LatestWithTags(tagRepo *TagRepo) ([]*model.Post, error) {
+	posts, err := pr.Latest()
+	if err != nil {
+		return nil, err
+	}
+
+	tags, err := tagRepo.ForPosts(utils.ExtractIDs(posts))
+	if err != nil {
+		return nil, err
+	}
+
+	model.AttachTagsToPosts(tags, posts)
+
+	return posts, nil
+}
+
+func (pr *PostRepo) ForSeries(seriesIDs []int) ([]*model.Post, error) {
 	idsStr := utils.IntsToStrings(seriesIDs)
 
 	query := fmt.Sprintf(`
@@ -107,70 +144,14 @@ func (tr *PostRepo) FromSeries(seriesIDs []int) ([]*model.Post, error) {
 	`, strings.Join(idsStr, ","))
 
 	posts := make([]*model.Post, 0, 2)
-	if err := tr.db.Select(&posts, query); err != nil {
-		return nil, fmt.Errorf("post_repo PostsForSeries() error: %v", err)
+	if err := pr.db.Select(&posts, query); err != nil {
+		return nil, fmt.Errorf("post_repo ForSeries() error: %v", err)
 	}
 
 	return posts, nil
 }
 
-func (tr *PostRepo) attachTagsToPosts(posts []*model.Post) error {
-	postIDs := utils.ExtractIDs(posts)
-	idsStr := utils.IntsToStrings(postIDs)
-
-	query := `
-		SELECT t.id, t.name, t.color, t.title, pt.post_id
-		FROM tags t 
-		JOIN post_tag pt ON t.id = pt.tag_id 
-		WHERE pt.post_id IN (?);
-	`
-
-	tags := make([]model.Tag, 0, 2)
-	if err := tr.db.Select(&tags, query, strings.Join(idsStr, ",")); err != nil {
-		return fmt.Errorf("select tags error in attachTagsToPosts: %v", err)
-	}
-
-	// Group tags by post ID
-	tagsByPost := make(map[int][]model.Tag)
-	for _, tag := range tags {
-		tagsByPost[tag.PostID] = append(tagsByPost[tag.PostID], tag)
-	}
-
-	// Attach tags to posts
-	for _, post := range posts {
-		post.Tags = tagsByPost[post.ID]
-	}
-
-	return nil
-}
-
-func (tr *PostRepo) attachTagsToPost(post *model.Post) error {
-	query := `
-		SELECT
-			t.id, t.name, t.color, t.title,
-			pt.post_id
-		FROM tags t 
-		JOIN post_tag pt ON t.id = pt.tag_id 
-		WHERE pt.post_id = ?
-	`
-
-	tags := make([]model.Tag, 0, 2)
-	if err := tr.db.Select(&tags, query, post.ID); err != nil {
-		return fmt.Errorf("select tags error in attachTagsToPost: %v", err)
-	}
-
-	// Group tags by post ID
-	tagsByPost := make(map[int][]model.Tag)
-	for _, tag := range tags {
-		tagsByPost[tag.PostID] = append(tagsByPost[tag.PostID], tag)
-	}
-
-	post.Tags = tagsByPost[post.ID]
-
-	return nil
-}
-
-func (tr *PostRepo) setAccessors(posts []*model.Post) {
+func (pr *PostRepo) setAccessors(posts []*model.Post) {
 	for i := range posts {
 		posts[i].SetAccessors()
 	}

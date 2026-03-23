@@ -3,6 +3,8 @@ package database
 import (
 	"fmt"
 	"serhii/internal/model"
+	"serhii/internal/utils"
+	"strings"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -24,4 +26,22 @@ func (tr *TagRepo) ByName(name string) (*model.Tag, error) {
 	}
 
 	return &tag, nil
+}
+
+func (tr *TagRepo) ForPosts(postsIDs []int) ([]*model.Tag, error) {
+	idsStr := utils.IntsToStrings(postsIDs)
+
+	query := `
+		SELECT t.id, t.name, t.color, t.title, pt.post_id
+		FROM tags t 
+		JOIN post_tag pt ON t.id = pt.tag_id 
+		WHERE pt.post_id IN (?);
+	`
+
+	tags := make([]*model.Tag, 0, 2)
+	if err := tr.db.Select(&tags, query, strings.Join(idsStr, ",")); err != nil {
+		return nil, fmt.Errorf("tag_repo ForPosts() error: %v", err)
+	}
+
+	return tags, nil
 }
