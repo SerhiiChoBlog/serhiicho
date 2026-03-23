@@ -35,7 +35,7 @@ func main() {
 
 	defer db.Close()
 
-	serv := http.NewServer(conf, database.NewMySql(db))
+	serv := http.NewServer(conf, database.NewDatabase(db))
 	if err := serv.ListenAndServe(os.Getenv("APP_PORT")); err != nil {
 		fmt.Println(err)
 	}

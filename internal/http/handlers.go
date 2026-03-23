@@ -5,7 +5,6 @@ import (
 	"log"
 	"net/http"
 	"serhii/internal/model"
-	"serhii/internal/utils"
 	"strings"
 )
 
@@ -96,18 +95,8 @@ func (s *server) postHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *server) seriesHandler(w http.ResponseWriter, r *http.Request) {
-	series, err := s.db.Series.All()
+	series, err := s.db.Series.WithPosts()
 	if err != nil {
-		log.Fatalln(err)
-	}
-
-	seriesIDs := utils.ExtractIDs(series)
-	posts, err := s.db.Post.PostsForSeries(seriesIDs)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	if err := model.AttachPostsToSeries(posts, series); err != nil {
 		log.Fatalln(err)
 	}
 

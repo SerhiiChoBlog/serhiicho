@@ -1,8 +1,10 @@
-package mysql
+package database
 
 import (
 	"fmt"
+	"log"
 	"serhii/internal/model"
+	"serhii/internal/utils"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -32,6 +34,23 @@ func (sr *SeriesRepo) All() ([]*model.Series, error) {
 	}
 
 	return series, nil
+}
+
+func (sr *SeriesRepo) WithPosts(postRepo PostRepo) ([]*model.Series, error) {
+	series, err := sr.All()
+	if err != nil {
+		return nil, err
+	}
+
+	seriesIDs := utils.ExtractIDs(series)
+	posts, err := postRepo.PostsForSeries(seriesIDs)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	if err := model.AttachPostsToSeries(posts, series); err != nil {
+		log.Fatalln(err)
+	}
 }
 
 func (sr *SeriesRepo) PostSeries(postID int) ([]*model.Series, error) {
