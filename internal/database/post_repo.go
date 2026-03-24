@@ -41,8 +41,6 @@ func (pr *PostRepo) All() ([]*model.Post, error) {
 		return nil, fmt.Errorf("post_repo All() error: %v", err)
 	}
 
-	pr.setAccessors(posts)
-
 	return posts, nil
 }
 
@@ -123,8 +121,6 @@ func (pr *PostRepo) Latest() ([]*model.Post, error) {
 		return nil, fmt.Errorf("post_repo Latest() error: %v", err)
 	}
 
-	pr.setAccessors(posts)
-
 	return posts, nil
 }
 
@@ -176,8 +172,6 @@ func (pr *PostRepo) ComingSoon() ([]*model.Post, error) {
 		return nil, fmt.Errorf("post_repo ComingSoon() error: %v", err)
 	}
 
-	pr.setAccessors(posts)
-
 	return posts, nil
 }
 
@@ -206,10 +200,4 @@ func (pr *PostRepo) ComingSoonWithTagsAndSeries(
 	model.AttachSeriesToPosts(series, posts)
 
 	return posts, nil
-}
-
-func (pr *PostRepo) setAccessors(posts []*model.Post) {
-	for i := range posts {
-		posts[i].SetAccessors()
-	}
 }

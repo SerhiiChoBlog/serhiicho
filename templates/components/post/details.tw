@@ -1,6 +1,6 @@
 <div class="flex flex-wrap opacity-70 print:justify-center items-center gap-2.5 {{ defined(class) ? class : '' }}">
     <time aria-label="Post published date" datetime="{{ post.CreatedAt }}" class="text-sm">
-        {{ post.PrettyCreatedAt }}
+        {{ formatDate(post.CreatedAt, 'Jan 2, 2006') }}
     </time>
 
     @if(hasValue(post.ReadTime))
