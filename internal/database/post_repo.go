@@ -73,7 +73,11 @@ func (pr *PostRepo) Single(slug string) (*model.Post, error) {
 	return &post, nil
 }
 
-func (pr *PostRepo) SingleWithTags(slug string, tagRepo *TagRepo) (*model.Post, error) {
+func (pr *PostRepo) SingleWithTagsAndSeries(
+	slug string,
+	tagRepo *TagRepo,
+	seriesRepo *SeriesRepo,
+) (*model.Post, error) {
 	post, err := pr.Single(slug)
 	if err != nil {
 		return nil, err
@@ -86,13 +90,20 @@ func (pr *PostRepo) SingleWithTags(slug string, tagRepo *TagRepo) (*model.Post, 
 
 	model.AttachTagsToPosts(tags, []*model.Post{post})
 
+	series, err := seriesRepo.ForPosts([]int{post.ID})
+	if err != nil {
+		return nil, err
+	}
+
+	model.AttachSeriesToPosts(series, []*model.Post{post})
+
 	return post, nil
 }
 
 func (pr *PostRepo) Latest() ([]*model.Post, error) {
 	posts := make([]*model.Post, 0, 2)
 
-	postsQuery := `
+	query := `
 		SELECT p.id, p.slug, p.title, p.intro, p.image_sm, p.image_xs, p.created_at, p.read_time,
 			-- Select post_views_count
 			(SELECT COUNT(*)
@@ -108,7 +119,7 @@ func (pr *PostRepo) Latest() ([]*model.Post, error) {
 		LIMIT 2
 	`
 
-	if err := pr.db.Select(&posts, postsQuery); err != nil {
+	if err := pr.db.Select(&posts, query); err != nil {
 		return nil, fmt.Errorf("post_repo Latest() error: %v", err)
 	}
 
@@ -147,6 +158,52 @@ func (pr *PostRepo) ForSeries(seriesIDs []int) ([]*model.Post, error) {
 	if err := pr.db.Select(&posts, query); err != nil {
 		return nil, fmt.Errorf("post_repo ForSeries() error: %v", err)
 	}
+
+	return posts, nil
+}
+
+func (pr *PostRepo) ComingSoon() ([]*model.Post, error) {
+	posts := make([]*model.Post, 0)
+
+	query := `
+		SELECT id, slug, title, intro, image_sm, created_at, updated_at, is_published
+		FROM posts
+		WHERE is_published = false
+		ORDER BY updated_at DESC
+	`
+
+	if err := pr.db.Select(&posts, query); err != nil {
+		return nil, fmt.Errorf("post_repo ComingSoon() error: %v", err)
+	}
+
+	pr.setAccessors(posts)
+
+	return posts, nil
+}
+
+func (pr *PostRepo) ComingSoonWithTagsAndSeries(
+	tagRepo *TagRepo,
+	seriesRepo *SeriesRepo,
+) ([]*model.Post, error) {
+	posts, err := pr.ComingSoon()
+	if err != nil {
+		return nil, err
+	}
+
+	postsIDs := utils.ExtractIDs(posts)
+	tags, err := tagRepo.ForPosts(postsIDs)
+	if err != nil {
+		return nil, err
+	}
+
+	model.AttachTagsToPosts(tags, posts)
+
+	series, err := seriesRepo.ForPosts(postsIDs)
+	if err != nil {
+		return nil, err
+	}
+
+	model.AttachSeriesToPosts(series, posts)
 
 	return posts, nil
 }

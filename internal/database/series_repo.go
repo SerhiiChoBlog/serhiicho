@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"serhii/internal/model"
 	"serhii/internal/utils"
+	"strings"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -54,19 +55,21 @@ func (sr *SeriesRepo) AllWithPosts(postRepo *PostRepo) ([]*model.Series, error) 
 	return series, nil
 }
 
-func (sr *SeriesRepo) PostSeries(postID int) ([]*model.Series, error) {
+func (sr *SeriesRepo) ForPosts(postsIDs []int) ([]*model.Series, error) {
+	idsStr := utils.IntsToStrings(postsIDs)
+
 	query := `
 		SELECT
 			s.id, s.title, s.slug, s.color_from, s.color_to,
 			ps.post_id, ps.part
 		FROM series s
 		JOIN post_series ps ON s.id = ps.series_id 
-		WHERE ps.post_id = ?
+		WHERE ps.post_id IN (?)
 	`
 
-	series := make([]*model.Series, 0, 4)
-	if err := sr.db.Select(&series, query, postID); err != nil {
-		return nil, fmt.Errorf("series_repo PostSeries() error: %v", err)
+	series := make([]*model.Series, 0)
+	if err := sr.db.Select(&series, query, strings.Join(idsStr, ",")); err != nil {
+		return nil, fmt.Errorf("series_repo ForPosts() error: %v", err)
 	}
 
 	return series, nil

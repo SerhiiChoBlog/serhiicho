@@ -19,7 +19,10 @@ func (s *server) homeHandler(w http.ResponseWriter, _ *http.Request) {
 		log.Fatalln(err)
 	}
 
-	comingSoonPosts := make([]*model.Post, 0)
+	comingSoonPosts, err := s.db.PostRepo.ComingSoonWithTagsAndSeries(s.db.TagRepo, s.db.SeriesRepo)
+	if err != nil {
+		log.Fatalln(err)
+	}
 
 	s.tpl.Response(w, "~home", map[string]any{
 		"latest":          latest,
@@ -73,17 +76,10 @@ func (s *server) postHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	post, err := s.db.PostRepo.SingleWithTags(slug, s.db.TagRepo)
+	post, err := s.db.PostRepo.SingleWithTagsAndSeries(slug, s.db.TagRepo, s.db.SeriesRepo)
 	if err != nil {
 		log.Fatalln(err)
 	}
-
-	postSeries, err := s.db.SeriesRepo.PostSeries(post.ID)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	post.Series = postSeries
 
 	var series *model.Series
 	if len(post.Series) > 0 {
