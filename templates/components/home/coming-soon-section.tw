@@ -52,7 +52,7 @@
                             <span>Last update on the post:</span>
 
                             <time datetime="{{ post.UpdatedAt }}" class="font-bold">
-                                {{ post.UpdatedAt.timeago() }}
+                                {{ post.UpdatedAt._timeago() }}
                             </time>
                         </div>
                     </div>

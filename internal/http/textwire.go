@@ -1,9 +1,8 @@
 package http
 
 import (
-	"log"
+	"fmt"
 	"os"
-	"time"
 
 	"github.com/SerhiiCho/timeago/v3"
 	"github.com/textwire/textwire/v4"
@@ -11,6 +10,8 @@ import (
 )
 
 func newTpl() *textwire.Template {
+	registerCustomFuncs()
+
 	isDev := os.Getenv("APP_ENV") == "development"
 
 	twConf := &config.Config{
@@ -31,23 +32,16 @@ func newTpl() *textwire.Template {
 	tpl, err := textwire.NewTemplate(twConf)
 	err.FatalOnError()
 
-	registerCustomFuncs()
-
 	return tpl
 }
 
 func registerCustomFuncs() {
-	textwire.RegisterStrFunc("timeago", func(s string, args ...any) any {
-		t, err := time.Parse("2006-01-02 15:04:05", s)
+	textwire.RegisterStrFunc("_timeago", func(s string, args ...any) any {
+		out, err := timeago.Parse(s)
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println(err)
+			return ""
 		}
-
-		out, err := timeago.Parse(t)
-		if err != nil {
-			log.Fatal(err)
-		}
-
 		return out
 	})
 }
