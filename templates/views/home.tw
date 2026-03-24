@@ -114,4 +114,14 @@
             </div>
         @end
     @end
+
+    @component('~home/section', {
+        title: "Coming soon",
+        intro: "The articles which I'm currently working on",
+        isDark: false,
+    })
+        @slot
+            @component('~home/coming-soon-section', { posts: comingSoonPosts })
+        @end
+    @end
 @end

@@ -19,9 +19,12 @@ func (s *server) homeHandler(w http.ResponseWriter, _ *http.Request) {
 		log.Fatalln(err)
 	}
 
+	comingSoonPosts := make([]*model.Post, 0)
+
 	s.tpl.Response(w, "~home", map[string]any{
-		"latest":       latest,
-		"latestVideos": latestVideos,
+		"latest":          latest,
+		"latestVideos":    latestVideos,
+		"comingSoonPosts": comingSoonPosts,
 	})
 }
 
