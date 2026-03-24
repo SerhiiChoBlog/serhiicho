@@ -52,8 +52,7 @@
                             <span>Last update on the post:</span>
 
                             <time datetime="{{ post.UpdatedAt }}" class="font-bold">
-                                {{-- TimeAgo::trans($post->updated_at) --}}
-                                TODO: with time-ago/ago package
+                                {{ post.UpdatedAt.timeago() }}
                             </time>
                         </div>
                     </div>

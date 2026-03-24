@@ -1,6 +1,8 @@
 package model
 
-import "time"
+import (
+	"time"
+)
 
 type Post struct {
 	ID                  int                    `json:"id" db:"id"`

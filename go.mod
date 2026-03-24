@@ -11,4 +11,7 @@ require (
 
 replace github.com/textwire/textwire/v4 => /home/serhii/www/open/textwire/textwire
 
-require filippo.io/edwards25519 v1.2.0 // indirect
+require (
+	filippo.io/edwards25519 v1.2.0 // indirect
+	github.com/SerhiiCho/timeago/v3 v3.3.2 // indirect
+)
