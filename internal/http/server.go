@@ -32,6 +32,7 @@ func (s *server) ListenAndServe(addr string) error {
 	s.mux.HandleFunc("GET /posts", s.postsHandler)
 	s.mux.HandleFunc("GET /posts/{slug}", s.postHandler)
 	s.mux.HandleFunc("GET /series", s.seriesHandler)
+	s.mux.HandleFunc("GET /series/{slug}", s.singleSeriesHandler)
 
 	// API routes
 	s.mux.HandleFunc("POST /api/post-likes/is-liked", s.postLikesIsLikedHandler)

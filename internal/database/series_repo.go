@@ -74,3 +74,28 @@ func (sr *SeriesRepo) ForPosts(postsIDs []int) ([]*model.Series, error) {
 
 	return series, nil
 }
+
+func (sr *SeriesRepo) Single(slug string) (*model.Series, error) {
+	var series model.Series
+
+	query := `SELECT * FROM series WHERE slug = ?`
+	if err := sr.db.Get(&series, query, slug); err != nil {
+		return nil, fmt.Errorf("series_repo Single() error: %v", err)
+	}
+
+	return &series, nil
+}
+
+func (sr *SeriesRepo) SingleWithPosts(slug string, postRepo *PostRepo) (*model.Series, error) {
+	series, err := sr.Single(slug)
+	if err != nil {
+		return nil, err
+	}
+
+	series.Posts, err = postRepo.ForSeries([]int{series.ID})
+	if err != nil {
+		return nil, err
+	}
+
+	return series, nil
+}

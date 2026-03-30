@@ -1,0 +1,65 @@
+@use('~main')
+
+@insert('title', series.Title)
+@insert('description', series.Intro)
+
+@insert('content')
+    @component('~hero', {
+        class: "bg-gray-800 text-white",
+        style: "background: linear-gradient(90deg, {{ series.ColorFrom }} 0%, {{ series.ColorTo }} 100%)",
+    })@end
+
+    <div class="container mt-5">
+        <div class="grid grid-cols-1 lg:grid-cols-[5fr_2fr] xl:grid-cols-[7fr_2fr] lg:gap-6">
+            <div>
+                <img
+                    src="/{{ series.ImageLg }}"
+                    alt="{{ series.Title }}"
+                    class="w-full rounded-lg"
+                    width="1600"
+                    height="400"
+                >
+
+                <div class="py-5 md:my-10 mx-0 md:mx-5">
+                    <div class="space-y-1">
+                        <h1 class="text-2xl lg:text-4xl">{{ series.Title }}</h1>
+
+                        <h2 class="text-lg lg:text-2xl text-main">
+                            {{ series.Intro }}
+                        </h2>
+
+                        <h3 class="text-lg lg:text-xl">
+                            {{ series.PostsCount }} articles
+
+                            @component('~edit-button', {
+                                url: '/admin/series/%s/edit'.format(series.ID),
+                                class: 'ml-2',
+                            })@end
+                        </h3>
+
+                        <h4>{{ series.ReadTime }} min total read time</h4>
+                    </div>
+
+                    <div class="post-content border-t border-border mt-4 md:mt-6">
+                        {{ series.Description.raw() }}
+                    </div>
+
+                    <div class="text-md mt-5">
+                        <span>Last updated:</span>
+                        <time datetime="{{ series.UpdatedAt }}">
+                            {{ formatDate(series.UpdatedAt, 'Jan 2, 2006') }}
+                        </time>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pb-5">
+                <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-1 gap-2">
+                    @each(post in series.Posts)
+                        <li>@component('~series/post', { post })@end</li>
+                    @end
+                </ul>
+            </div>
+        </div>
+    </div>
+@end

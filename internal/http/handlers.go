@@ -109,3 +109,21 @@ func (s *server) seriesHandler(w http.ResponseWriter, r *http.Request) {
 		"series": series,
 	})
 }
+
+func (s *server) singleSeriesHandler(w http.ResponseWriter, r *http.Request) {
+	slug := r.PathValue("slug")
+
+	if strings.Contains(slug, ".") {
+		http.NotFound(w, r)
+		return
+	}
+
+	series, err := s.db.SeriesRepo.SingleWithPosts(slug, s.db.PostRepo)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	s.tpl.Response(w, "~series/single", map[string]any{
+		"series": series,
+	})
+}
