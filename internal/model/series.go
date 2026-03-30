@@ -17,7 +17,7 @@ type Series struct {
 	Posts       []*Post   `json:"posts" db:"-"`
 	CreatedAt   time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at" db:"updated_at"`
-	PostsCount  *int      `json:"posts_count,omitempty" db:"posts_count"` // nullable
+	PostsCount  int       `json:"posts_count,omitempty" db:"posts_count"` // nullable
 	PostID      int       `json:"post_id" db:"post_id"`                   // from pivot table
 	Part        int       `json:"part" db:"part"`                         // from pivot table
 }

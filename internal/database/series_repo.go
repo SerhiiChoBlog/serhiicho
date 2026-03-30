@@ -97,5 +97,16 @@ func (sr *SeriesRepo) SingleWithPosts(slug string, postRepo *PostRepo) (*model.S
 		return nil, err
 	}
 
+	series.PostsCount = len(series.Posts)
+	series.ReadTime = calculateSeriesReadTime(series.Posts)
+
 	return series, nil
+}
+
+func calculateSeriesReadTime(posts []*model.Post) int {
+	var total int
+	for i := range posts {
+		total += posts[i].ReadTime
+	}
+	return total
 }
