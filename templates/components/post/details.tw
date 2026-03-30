@@ -5,7 +5,7 @@
 
     @if(hasValue(post.ReadTime))
         @component('~post/detail', { ariaLabel: 'Minutes to read' })
-            @component('~icons/book', { class: 'w-4 h-4' })
+            @component('~icons/book', { class: 'w-4 h-4' })@end
             {{ post.ReadTime }} min
         @end
     @end
