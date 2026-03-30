@@ -43,7 +43,7 @@
                             @component('~edit-button', {
                                 url: '/admin/posts/%s/edit'.format(post.ID),
                                 class: 'ml-1 mt-1',
-                            })
+                            })@end
                         @end
 
                         <div class="opacity-70 flex items-center gap-2">
