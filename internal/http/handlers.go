@@ -37,7 +37,7 @@ func (s *server) aboutMeHandler(w http.ResponseWriter, _ *http.Request) {
 	})
 }
 
-func (s *server) postsHandler(w http.ResponseWriter, r *http.Request) {
+func (s *server) listPostsHandler(w http.ResponseWriter, r *http.Request) {
 	posts, err := s.db.PostRepo.AllWithTags(s.db.TagRepo)
 	if err != nil {
 		log.Fatalln(err)
@@ -60,7 +60,7 @@ func (s *server) postsHandler(w http.ResponseWriter, r *http.Request) {
 		series = posts[0].Series
 	}
 
-	s.tpl.Response(w, "~posts/posts", map[string]any{
+	s.tpl.Response(w, "~posts/list", map[string]any{
 		"title":  title,
 		"posts":  posts,
 		"series": series,
@@ -68,7 +68,7 @@ func (s *server) postsHandler(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func (s *server) postHandler(w http.ResponseWriter, r *http.Request) {
+func (s *server) singlePostHandler(w http.ResponseWriter, r *http.Request) {
 	slug := r.PathValue("slug")
 
 	if strings.Contains(slug, ".") {
@@ -91,7 +91,7 @@ func (s *server) postHandler(w http.ResponseWriter, r *http.Request) {
 		postTitle = series.Title
 	}
 
-	s.tpl.Response(w, "~posts/post", map[string]any{
+	s.tpl.Response(w, "~posts/single", map[string]any{
 		"post":          post,
 		"postTitle":     postTitle,
 		"titleFontSize": getPostTitleFontSize(post.Title),
@@ -99,13 +99,13 @@ func (s *server) postHandler(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func (s *server) seriesHandler(w http.ResponseWriter, r *http.Request) {
+func (s *server) listSeriesHandler(w http.ResponseWriter, r *http.Request) {
 	series, err := s.db.SeriesRepo.AllWithPosts(s.db.PostRepo)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	s.tpl.Response(w, "~series/series", map[string]any{
+	s.tpl.Response(w, "~series/list", map[string]any{
 		"series": series,
 	})
 }

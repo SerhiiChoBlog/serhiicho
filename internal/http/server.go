@@ -29,9 +29,9 @@ func NewServer(conf *config.Config, db *database.Database) server {
 func (s *server) ListenAndServe(addr string) error {
 	s.servePublic("GET /", "./public")
 	s.mux.HandleFunc("GET /about-me", s.aboutMeHandler)
-	s.mux.HandleFunc("GET /posts", s.postsHandler)
-	s.mux.HandleFunc("GET /posts/{slug}", s.postHandler)
-	s.mux.HandleFunc("GET /series", s.seriesHandler)
+	s.mux.HandleFunc("GET /posts", s.listPostsHandler)
+	s.mux.HandleFunc("GET /posts/{slug}", s.singlePostHandler)
+	s.mux.HandleFunc("GET /series", s.listSeriesHandler)
 	s.mux.HandleFunc("GET /series/{slug}", s.singleSeriesHandler)
 
 	// API routes
