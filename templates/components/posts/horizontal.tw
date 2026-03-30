@@ -27,7 +27,7 @@
                     </h2>
                 </a>
 
-                @component('~posts/series-number', { post })
+                @component('~posts/series-number', { post })@end
 
                 <p class="mt-1 text-lg font-light text-font-second font-post">
                     {{ post.Intro }}
@@ -38,11 +38,9 @@
                 @component('~post/tags', {
                     class: 'text-[.8em] mt-3',
                     tags: post.Tags,
-                })
+                })@end
                 @component('~post/details', { post, class: 'mt-3' })
-                    @slot
-                        @component('~edit-button', { url: "/admin/posts/" + post.ID.str() + "/edit" })
-                    @end
+                    @component('~edit-button', { url: "/admin/posts/%s/edit".format(post.ID) })@end
                 @end
             </div>
         </div>

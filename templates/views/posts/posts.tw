@@ -10,7 +10,7 @@
         class: 'bg-cover text-white relative %s'.format(series ? '' : 'bg-home-hero'),
         style: series ? "background: linear-gradient(90deg, %s 0%, %s 100%)".format(series.color_from, series.color_to) : '',
     })
-        @slotif(tag)
+        @if(tag)
             <img
                 src="/storage/tags/{{ tag.Name }}.webp"
                 alt="The logo of {{ tag.Name }}"
@@ -28,11 +28,11 @@
             </div>
 
             @if(posts.len() == 0)
-                @component('~posts/no-posts', { tag })
+                @component('~posts/no-posts', { tag })@end
             @else
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6 mt-4">
                     @each(post in posts)
-                        @component('~posts/horizontal', { post })
+                        @component('~posts/horizontal', { post })@end
                     @end
                 </div>
 

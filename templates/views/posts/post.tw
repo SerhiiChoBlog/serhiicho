@@ -59,10 +59,10 @@
                         @component('~post/tags', {
                             tags: post.Tags,
                             class: 'text-sm mt-5 !gap-3',
-                        })
+                        })@end
 
                         <div class="mt-4">
-                            @component('~post/details', { post })
+                            @component('~post/details', { post })@end
 
                             @if(post.UpdatedAt != post.CreatedAt)
                                 <time
@@ -90,7 +90,7 @@
                             @component('~edit-button', {
                                 url: '/admin/posts/%s/edit'.format(post.ID),
                                 class: 'ml-3',
-                            })
+                            })@end
                         </div>
                     </div>
 
@@ -125,11 +125,11 @@
                         <prev-next-post :post-id="{{ post.ID }}" />
                     </lazy-loading>
 
-                    @component('~post/footer', { post })
+                    @component('~post/footer', { post })@end
 
 
                     <nav role="navigation" class="print:hidden">
-                        @component('~post/sidebar-title')@slotYou might be interested@end@end
+                        @component('~post/sidebar-title')You might be interested@end
 
                         <lazy-loading>
                             <related-posts :post-id="{{ post.ID }}"></related-posts>
@@ -140,7 +140,7 @@
                 <div class="spacey-y-0 lg:space-y-10 px-3 h-full max-w-[500px] mx-auto lg:max-w-[320px] pt-0 2xl:pt-20">
                     <div class="hidden lg:block">
                         <nav class="min-h-[83px]">
-                            @component('~post/sidebar-title')@slotShare this post@end@end
+                            @component('~post/sidebar-title')Share this post@end
 
                             <share-post-buttons
                                 post-title="{{ postTitle }}"
@@ -151,8 +151,8 @@
 
                     @if(post.Video)
                         <div class="mt-4">
-                            @component('~post/sidebar-title')@slotRelated video@end@end
-                            @component('~post/video', { video: post.Video })
+                            @component('~post/sidebar-title')Related video@end
+                            @component('~post/video', { video: post.Video })@end
                         </div>
                     @end
 

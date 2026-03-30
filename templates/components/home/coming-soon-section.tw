@@ -40,12 +40,10 @@
                             tags: post.Tags,
                             class: 'text-sm md:text-md mt-2 !gap-2',
                         })
-                            @slot
-                                @component('~edit-button', {
-                                    url: '/admin/posts/%s/edit'.format(post.ID),
-                                    class: 'ml-1 mt-1',
-                                })
-                            @end
+                            @component('~edit-button', {
+                                url: '/admin/posts/%s/edit'.format(post.ID),
+                                class: 'ml-1 mt-1',
+                            })
                         @end
 
                         <div class="opacity-70 flex items-center gap-2">

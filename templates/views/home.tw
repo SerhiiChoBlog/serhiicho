@@ -7,35 +7,33 @@
         navbar: "text-white",
         class: "relative bg-home-hero bg-cover shadow-lg",
     })
-        @slot
-            <div>
-                <div class="relative z-10 text-center pt-20 pb-32">
-                    <h1 class="text-2xl lg:text-4xl" aria-label="Serhii Cho">
-                        <span class="text-white drop-shadow-md uppercase">
-                            {{ global.appName }}
-                        </span>
-                    </h1>
+        <div>
+            <div class="relative z-10 text-center pt-20 pb-32">
+                <h1 class="text-2xl lg:text-4xl" aria-label="Serhii Cho">
+                    <span class="text-white drop-shadow-md uppercase">
+                        {{ global.appName }}
+                    </span>
+                </h1>
 
-                    <h2 class="text-white text-md lg:text-2xl mt-2 mx-4 leading-5 md:tracking-wide drop-shadow-md mb-3">
-                        Blog about web development and coding
-                    </h2>
+                <h2 class="text-white text-md lg:text-2xl mt-2 mx-4 leading-5 md:tracking-wide drop-shadow-md mb-3">
+                    Blog about web development and coding
+                </h2>
 
-                    <search>
-                        <div class="min-h-[44px] lg:min-h-[60px]"></div>
-                    </search>
+                <search>
+                    <div class="min-h-[44px] lg:min-h-[60px]"></div>
+                </search>
 
-                    <div class="mt-4 lg:mt-6 left-0 right-0 text-center">
-                        <a
-                            href="/posts"
-                            class="inline-flex items-center px-7 lg:px-10 py-2 lg:py-3 text-white rounded-full text-md lg:text-lg border uppercase transition-transform hover:scale-105"
-                        >
-                            <span>Read blog</span>
-                            @component("~icons/arrow-right", { class: "w-6 h-6 inline-block ml-2" })
-                        </a>
-                    </div>
+                <div class="mt-4 lg:mt-6 left-0 right-0 text-center">
+                    <a
+                        href="/posts"
+                        class="inline-flex items-center px-7 lg:px-10 py-2 lg:py-3 text-white rounded-full text-md lg:text-lg border uppercase transition-transform hover:scale-105"
+                    >
+                        <span>Read blog</span>
+                        @component("~icons/arrow-right", { class: "w-6 h-6 inline-block ml-2" })@end
+                    </a>
                 </div>
             </div>
-        @end
+        </div>
     @end
 
     @component('~home/section', {
@@ -43,13 +41,11 @@
         intro: "The most recent articles",
         isDark: false,
     })
-        @slot
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6 max-w-6xl mx-auto">
-                @each(post in latest)
-                    @component('~posts/horizontal', { post })
-                @end
-            </div>
-        @end
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6 max-w-6xl mx-auto">
+            @each(post in latest)
+                @component('~posts/horizontal', { post })@end
+            @end
+        </div>
     @end
 
     @component('~home/section', {
@@ -57,10 +53,8 @@
         intro: "The most viewed articles in previous month",
         isDark: true,
     })
-        @slot
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6 max-w-6xl mx-auto">
-            </div>
-        @end
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6 max-w-6xl mx-auto">
+        </div>
     @end
 
     @component('~home/section', {
@@ -68,10 +62,8 @@
         intro: "Articles which I think you might want to read",
         isDark: false,
     })
-        @slot
-            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-            </div>
-        @end
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+        </div>
     @end
 
     @component('~home/section', {
@@ -79,40 +71,38 @@
         intro: "The latest YouTube videos",
         isDark: true,
     })
-        @slot
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-                @each(video in latestVideos)
-                    <a
-                        href="{{ video.URL }}"
-                        target="_blank"
-                        class="relative transition-opacity hover:opacity-90"
-                        rel="noreferrer"
-                    >
-                        <div class="relative">
-                            <img
-                                src="/storage/icons/youtube.webp"
-                                alt="YouTube logo"
-                                class="z-10 opacity-90 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60px]"
-                                width="100"
-                                height="100"
-                            />
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            @each(video in latestVideos)
+                <a
+                    href="{{ video.URL }}"
+                    target="_blank"
+                    class="relative transition-opacity hover:opacity-90"
+                    rel="noreferrer"
+                >
+                    <div class="relative">
+                        <img
+                            src="/storage/icons/youtube.webp"
+                            alt="YouTube logo"
+                            class="z-10 opacity-90 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60px]"
+                            width="100"
+                            height="100"
+                        />
 
-                            <img
-                                data-src="{{ video.Image }}"
-                                alt="{{ video.Title }}"
-                                width="320"
-                                height="180"
-                                class="rounded-lg shadow-md w-full"
-                            >
-                        </div>
+                        <img
+                            data-src="{{ video.Image }}"
+                            alt="{{ video.Title }}"
+                            width="320"
+                            height="180"
+                            class="rounded-lg shadow-md w-full"
+                        >
+                    </div>
 
-                        <h2 class="text-xl mt-2 mx-1 leading-7">
-                            {{ video.Title }}
-                        </h2>
-                    </a>
-                @end
-            </div>
-        @end
+                    <h2 class="text-xl mt-2 mx-1 leading-7">
+                        {{ video.Title }}
+                    </h2>
+                </a>
+            @end
+        </div>
     @end
 
     @component('~home/section', {
@@ -120,8 +110,6 @@
         intro: "The articles which I'm currently working on",
         isDark: false,
     })
-        @slot
-            @component('~home/coming-soon-section', { posts: comingSoonPosts })
-        @end
+        @component('~home/coming-soon-section', { posts: comingSoonPosts })@end
     @end
 @end

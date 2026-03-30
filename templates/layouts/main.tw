@@ -2,16 +2,20 @@
 <html lang="en">
 <head>
     @component('~partials/head')
-        @slot('title')@reserve('title', 'Blog for developers')@end
-        @slot('description')@reserve("description", "Serhii's blog is a great place to learn about web development. If you are eager to learn how to build optimized, responsive and modern web")@end
+        @pass('title')
+            @reserve('title', 'Blog for developers')
+        @end
+
+        @pass('description')
+            @reserve("description", "Serhii's blog is a great place to learn about web development. If you are eager to learn how to build optimized, responsive and modern web")
+        @end
     @end
     @reserve('head')
 </head>
 <body class="text-font font-main bg-page {{ global.darkThemeCookie }}">
     <main id="main">
         @reserve("content")
-
-        @component('~footer')
+        @component('~footer')@end
     </main>
 
     <script type="text/javascript">

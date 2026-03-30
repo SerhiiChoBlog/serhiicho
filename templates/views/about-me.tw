@@ -9,7 +9,7 @@
         class: "bg-linear-to-r from-[#657ca1] via-[#445a7e] to-[#163249] text-white",
         mainTitle: "Serhii Cho",
         subtitle: "Just another hacker summoning bugs while dabbling in all kinds of tech sorcery.<br>I sprinkle open-source magic everywhere, and live inside Linux terminal.",
-    })
+    })@end
 
     <div class="mt-2 text-xl">
         <section class="text-[1.2rem] px-2 lg:px-6 py-8">
@@ -52,7 +52,7 @@
 
         <section class="relative bg-page-second py-10 px-5 $classes min-h-125">
             <div class="container pt-8 lg:pt-16">
-                @component('~partials/section-detail')
+                @component('~partials/section-detail')@end
 
                 <div class="grid grid-cols-1 {{ technologies.len() == 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-4' }} print:grid-cols-2 gap-7">
                     @each(tech in technologies)

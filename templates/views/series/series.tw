@@ -9,7 +9,7 @@
         subtitle: "Collection of articles groped by specific topics.<br />Each series contains a number of articles on a specific topic.",
         class: "bg-gradient-to-r from-[#1a1b1b] to-[#2f4343] text-white relative",
         style: "background: linear-gradient(90deg, {{ series[0] ? series[0].ColorFrom : '' }} 0%, {{ series[0] ? series[0].ColorTo : '' }} 100%)",
-    })
+    })@end
 
     <div class="container">
         <div class="bg-page max-w-[1100px] mx-auto -translate-y-6 rounded-xl px-3 pt-3">
@@ -20,7 +20,7 @@
             @else
                 <div class="flex flex-col gap-y-4 mt-4">
                     @each(s in series)
-                        @component('~series/card', { series: s })
+                        @component('~series/card', { series: s })@end
                     @end
 
                     <div class="my-6 mx-4">

@@ -5,7 +5,7 @@
     <div class="p-4 lg:p-8 lg:pr-0 flex flex-col justify-between">
         <div>
             <x-series.header :series="series" />
-            @component('~series/header', { series })
+            @component('~series/header', { series })@end
 
             <img
                 src="/{{ series.ImageXs }}"
@@ -27,7 +27,7 @@
                 class="bg-page px-6 p-2 rounded-lg transition-opacity hover:opacity-80 inline-flex items-center gap-1"
             >
                 <span>Read series</span>
-                @component('~icons/arrow-right', { class: 'w-6 h-6' })
+                @component('~icons/arrow-right', { class: 'w-6 h-6' })@end
             </a>
         </div>
     </div>
@@ -35,7 +35,7 @@
     <div class="border-t-4 lg:border-l-4 lg:border-t-0 border-dashed border-page p-4 lg:p-8 pl-4 ml-4 lg:pl-4">
         <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-1 gap-2">
             @each(post in series.Posts)
-                <li>@component('~series/post', { post })</li>
+                <li>@component('~series/post', { post })@end</li>
             @end
         </ul>
     </div>

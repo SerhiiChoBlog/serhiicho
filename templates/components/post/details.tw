@@ -5,28 +5,22 @@
 
     @if(hasValue(post.ReadTime))
         @component('~post/detail', { ariaLabel: 'Minutes to read' })
-            @slot
-                @component('~icons/book', { class: 'w-4 h-4' })
-                {{ post.ReadTime }} min
-            @end
+            @component('~icons/book', { class: 'w-4 h-4' })
+            {{ post.ReadTime }} min
         @end
     @end
 
     @if(hasValue(post.PostViewsCount))
         @component('~post/detail', { ariaLabel: 'Post views' })
-            @slot
-                @component('~icons/views', { class: 'w-4 h-4' })
-                {{ post.PostViewsCount }} views
-            @end
+            @component('~icons/views', { class: 'w-4 h-4' })@end
+            {{ post.PostViewsCount }} views
         @end
     @end
 
     @if(hasValue(post.CommentsCount))
         @component('~post/detail', { ariaLabel: 'Post comments amount' })
-            @slot
-                @component('~icons/comment', { class: 'w-4 h-4' })
-                {{ post.CommentsCount }}
-            @end
+            @component('~icons/comment', { class: 'w-4 h-4' })@end
+            {{ post.CommentsCount }}
         @end
     @end
 

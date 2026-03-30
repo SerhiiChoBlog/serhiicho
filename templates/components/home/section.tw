@@ -1,5 +1,5 @@
 <section class="py-10 md:py-16 lg:py-24 {{ defined(isDark) && isDark ? 'bg-page-second relative' : '' }}">
-    @if (defined(isDark))
+    @if(defined(isDark))
         <x-section-detail />
     @end
 

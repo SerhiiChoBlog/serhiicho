@@ -120,8 +120,9 @@ type Model struct {
 **Key Directives**:
 - `@use("~main")` - extend layout (~ = templates root)
 - `@insert("title", "content")` - define section content
-- `@component("~path/component", { props })` - render component
-- `@slot` / `@end` - component content block
+- `@component("~path/component", { props })@end` - render component
+- `@pass` and `@passif` - component content block
+- `@slot` for placeholders in component files
 - `{{ variable }}` - output (auto-escaped)
 - `{{ defined(var) ? var : 'default' }}` - conditional with default
 
@@ -180,7 +181,7 @@ No tests exist yet. Use standard Go testing:
 2. Register route in `internal/http/server.go`
 3. Create template in `templates/views/`
 4. Use `@use('~main')` to extend `layouts/main.tw` (`~` an alias for `layouts/`)
-5. Use `@insert('title', 'Some title')` adn `@insert('content')` to insert things into a layout file
+5. Use `@insert('title', 'Some title')` adn `@insert('content')@end` to insert things into a layout file
 
 **Adding a Repository Method**:
 1. Add interface method to `internal/database/database.go`
@@ -189,9 +190,9 @@ No tests exist yet. Use standard Go testing:
 
 **Adding a Component**:
 1. Create `.tw` file in `templates/components/{category}/`
-2. Use `@slot` for content injection
+2. Use `@pass` for content injection
 3. Access props with `{{ defined(propName) ? propName : 'default' }}`
-4. Reference with `~` prefix: `@component("~category/name", { prop: value })` (`~` an alias for `components/`)
+4. Reference with `~` prefix: `@component("~category/name", { prop: value })@end` (`~` an alias for `components/`)
 
 ## Textwire
 - All Textwire files end with `.tw` file extension
