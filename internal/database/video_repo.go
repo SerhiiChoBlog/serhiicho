@@ -11,7 +11,7 @@ type VideoRepo struct {
 	db *sqlx.DB
 }
 
-func NewVideo(db *sqlx.DB) *VideoRepo {
+func NewVideoRepo(db *sqlx.DB) *VideoRepo {
 	return &VideoRepo{db: db}
 }
 

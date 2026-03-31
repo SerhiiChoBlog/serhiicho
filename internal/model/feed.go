@@ -10,7 +10,7 @@ type Feed struct {
 	PostID    *int      `json:"post_id,omitempty" db:"post_id"`
 	Title     string    `json:"title" db:"title"`
 	Content   string    `json:"content" db:"content"`
-	Type      string    `json:"type" db:"type"` // assuming FeedType is string, adjust if custom type
+	Type      string    `json:"type" db:"type"`
 	Date      time.Time `json:"date" db:"date"`
 	User      *User     `json:"user,omitempty" db:"-"`
 	Comment   *Comment  `json:"comment,omitempty" db:"-"`

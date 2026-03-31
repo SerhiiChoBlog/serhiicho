@@ -127,3 +127,32 @@ func (s *server) singleSeriesHandler(w http.ResponseWriter, r *http.Request) {
 		"series": series,
 	})
 }
+
+func (s *server) listProjectsHandler(w http.ResponseWriter, r *http.Request) {
+	series, err := s.db.SeriesRepo.AllWithPosts(s.db.PostRepo)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	s.tpl.Response(w, "~projects/list", map[string]any{
+		"series": series,
+	})
+}
+
+func (s *server) singleProjectHandler(w http.ResponseWriter, r *http.Request) {
+	slug := r.PathValue("slug")
+
+	if strings.Contains(slug, ".") {
+		http.NotFound(w, r)
+		return
+	}
+
+	series, err := s.db.SeriesRepo.SingleWithPosts(slug, s.db.PostRepo)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	s.tpl.Response(w, "~projects/single", map[string]any{
+		"series": series,
+	})
+}

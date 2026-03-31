@@ -11,6 +11,7 @@ type Database struct {
 	SeriesRepo   *SeriesRepo
 	UserRepo     *UserRepo
 	VideoRepo    *VideoRepo
+	ProjectRepo  *ProjectRepo
 }
 
 func NewDatabase(db *sqlx.DB) *Database {
@@ -19,6 +20,7 @@ func NewDatabase(db *sqlx.DB) *Database {
 		PostLikeRepo: NewPostLikeRepo(db),
 		TagRepo:      NewTagRepo(db),
 		SeriesRepo:   NewSeriesRepo(db),
-		VideoRepo:    NewVideo(db),
+		VideoRepo:    NewVideoRepo(db),
+		ProjectRepo:  NewProjectRepo(db),
 	}
 }

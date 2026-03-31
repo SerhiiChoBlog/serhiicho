@@ -12,7 +12,7 @@ type User struct {
 	Password        string        `json:"-" db:"password"` // never expose in JSON
 	CommentsCount   *int          `json:"comments_count,omitempty" db:"comments_count"`
 	PostLikesCount  *int          `json:"post_likes_count,omitempty" db:"post_likes_count"`
-	SignInMethod    string        `json:"sign_in_method" db:"sign_in_method"` // assuming string, adjust if SignInMethod is custom type
+	SignInMethod    string        `json:"sign_in_method" db:"sign_in_method"`
 	Avatar          string        `json:"avatar" db:"avatar"`
 	RememberToken   string        `json:"-" db:"remember_token"` // never expose
 	CreatedAt       time.Time     `json:"created_at" db:"created_at"`
