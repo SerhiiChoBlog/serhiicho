@@ -15,18 +15,17 @@ func NewProjectRepo(db *sqlx.DB) *ProjectRepo {
 	return &ProjectRepo{db: db}
 }
 
-func (vr *ProjectRepo) Latest() ([]*model.Project, error) {
+func (vr *ProjectRepo) All() ([]*model.Project, error) {
 	var projects []*model.Project
 
 	query := `
-		SELECT *
+		SELECT title, language, description, name, stars, has_homepage, url, updated_at
 		FROM projects
-		ORDER BY created_at DESC
-		LIMIT 4
+		ORDER BY updated_at DESC
 	`
 
 	if err := vr.db.Select(&projects, query); err != nil {
-		return nil, fmt.Errorf("project_repo Latest() error: %v", err)
+		return nil, fmt.Errorf("project_repo All() error: %v", err)
 	}
 
 	return projects, nil

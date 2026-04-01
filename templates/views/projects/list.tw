@@ -1,0 +1,66 @@
+@use('~main')
+
+@insert('title', 'Open-source projects')
+@insert('description', "I'm also a maintainer of several open-source libraries which you can contribute to any of them on GitHub")
+
+@insert('content')
+    @component("~hero", {
+        class: "bg-linear-to-r from-[#51895c] via-[#4c5f7d] to-[#51895c] text-white",
+        mainTitle: "Open-source",
+        subtitle: "I'm the maintainer of several open-source libraries and browser extension.<br>You can contribute to any of them on GitHub, and I would gladly look into your pull request or issue.",
+    })@end
+
+    <div class="container my-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 -translate-y-12 bg-page rounded-xl px-5 pt-5">
+
+            @each(project in projects)
+                <article>
+                    <a
+                        href="{{ project.HasHomepage ? project.URL : '/projects/%s'.format(project.Name) }}"
+                        title="Go to a project"
+                        class="bg-page-second p-7 h-full rounded-md shadow-md hover:shadow-lg transition-shadow relative flex flex-col justify-center min-h-80"
+                        {{ project.HasHomepage ? 'target="_blank"' : '' }}
+                    >
+                        @if(hasValue(project.Language))
+                            <img
+                                src="{{ '/storage/languages/%s.webp'.format(project.Language.lower()) }}"
+                                alt="{{ project.Title }}"
+                                class="absolute right-4 top-4 w-12 aspect-square"
+                                width="80"
+                                height="80"
+                            />
+                        @end
+
+                        <div>
+                            <h2 class="first-letter:text-main font-bold text-2xl text-font uppercase">
+                                {{ project.Title }}
+                            </h2>
+
+                            <p class="text-lg mt-3 text-font-second border-t border-t-border pt-3 pb-6">
+                                {{ project.Description }}
+
+                                <small class="text-font-second opacity-70 block mt-1">
+                                    Last commit {{ project.PrettyUpdatedAt }}
+                                </small>
+                            </p>
+
+                            <div class="absolute bottom-3 inset-x-6 flex justify-between items-center text-md text-gray-500">
+                                <div class="flex items-center gap-1">
+                                    @if(project.HasHomepage)
+                                        @component('~icons/external', { class: "w-4 h-4" })@end
+                                        <small>external link</small>
+                                    @end
+                                </div>
+
+                                <div class="flex items-center">
+                                    @component('~icons/star', { class: "w-4 h-4 gap-0.5" })@end
+                                    <small>{{ project.Stars }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            @end
+        </div>
+    </div>
+@end

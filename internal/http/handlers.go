@@ -129,13 +129,13 @@ func (s *server) singleSeriesHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *server) listProjectsHandler(w http.ResponseWriter, r *http.Request) {
-	series, err := s.db.SeriesRepo.AllWithPosts(s.db.PostRepo)
+	projects, err := s.db.ProjectRepo.All()
 	if err != nil {
 		log.Fatalln(err)
 	}
 
 	s.tpl.Response(w, "~projects/list", map[string]any{
-		"series": series,
+		"projects": projects,
 	})
 }
 
