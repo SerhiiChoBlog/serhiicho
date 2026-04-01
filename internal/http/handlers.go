@@ -140,19 +140,19 @@ func (s *server) listProjectsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *server) singleProjectHandler(w http.ResponseWriter, r *http.Request) {
-	slug := r.PathValue("slug")
+	name := r.PathValue("name")
 
-	if strings.Contains(slug, ".") {
+	if strings.Contains(name, ".") {
 		http.NotFound(w, r)
 		return
 	}
 
-	series, err := s.db.SeriesRepo.SingleWithPosts(slug, s.db.PostRepo)
+	project, err := s.db.ProjectRepo.Single(name)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
 	s.tpl.Response(w, "~projects/single", map[string]any{
-		"series": series,
+		"project": project,
 	})
 }
