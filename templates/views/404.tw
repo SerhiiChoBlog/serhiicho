@@ -1,0 +1,59 @@
+@use('~main')
+
+@insert('title', '404')
+@insert('description', "Looks like you can't find a page you need")
+
+@insert('content')
+    <div class="bg-linear-to-t from-[#593468] to-[#423263] text-white min-h-screen">
+        <div class="container py-8">
+            <div class="flex flex-col lg:flex-row gap-4 lg:gap-10 items-center justify-center">
+                <h1 class="text-8xl md:text-[10rem] font-main font-black leading-[120%]">
+                    404
+                </h1>
+
+                <h2 class="flex flex-col text-md md:text-xl lg:text-2xl font-post">
+                    <span>Looks like you can't find a page you need.</span>
+                    <span>How about posts below?</span>
+
+                    <div class="flex gap-4 mt-8 lg:mt-3 justify-center lg:justify-start">
+                        @each(link in links)
+                            <a
+                                href="{{ link }}"
+                                class="border border-amber-400 hover:border-amber-500 shadow-md shadow-transparent duration-500 hover:shadow-amber-300 transition-shadow px-5 py-1.5 rounded-full text-center uppercase font-main text-sm min-w-[130px]"
+                            >
+                                404
+                            </a>
+                        @end
+                    </div>
+                </h2>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-4 mt-7">
+                @foreach($posts as $post)
+                    <a
+                        href="{{ route('posts.show', $post['slug']) }}"
+                        class="flex shadow-xl hover:shadow-purple-800 duration-300 opacity-90 hover:opacity-100 flex-col justify-between bg-black/20 max-w-md mx-auto transition-all p-5 rounded-xl"
+                    >
+                        <article class="space-y-4">
+                            <img
+                                src="{{ asset($post['image_sm']) }}"
+                                alt="{{ $post['title'] }}"
+                                class="rounded-lg shadow-lg"
+                            />
+
+                            <h2 class="text-xl font-black font-main">
+                                {{ $post['title'] }}
+                            </h2>
+
+                            <p class="text-lg font-post">{{ $post['intro'] }}</p>
+                        </article>
+
+                        <span class="block text-right font-second tracking-wide">
+                            {{ $post['read_time'] }} minutes read
+                        </span>
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    </div>
+@end
