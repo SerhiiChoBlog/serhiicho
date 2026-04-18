@@ -4,10 +4,10 @@
 @insert('description', 'Just another hacker summoning bugs while dabbling in all kinds of tech sorcery. I sprinkle open-source magic everywhere, and live inside Linux terminal')
 
 @insert('content')
-    @component("~hero", {
-        navbar: "text-white",
-        class: "bg-linear-to-r from-[#657ca1] via-[#445a7e] to-[#163249] text-white",
-        mainTitle: "Serhii Cho",
+    @component('~hero', {
+        navbar: 'text-white',
+        class: 'bg-linear-to-r from-[#657ca1] via-[#445a7e] to-[#163249] text-white',
+        mainTitle: 'Serhii Cho',
         subtitle: "Just another hacker summoning bugs while dabbling in all kinds of tech sorcery.<br>I sprinkle open-source magic everywhere, and live inside Linux terminal.",
     })@end
 
