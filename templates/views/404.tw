@@ -29,30 +29,30 @@
             </div>
 
             <div class="flex flex-col lg:flex-row gap-4 mt-7">
-                @foreach($posts as $post)
+                @each(post in posts)
                     <a
-                        href="{{ route('posts.show', $post['slug']) }}"
+                        href="/posts/{{ post.Slug }}"
                         class="flex shadow-xl hover:shadow-purple-800 duration-300 opacity-90 hover:opacity-100 flex-col justify-between bg-black/20 max-w-md mx-auto transition-all p-5 rounded-xl"
                     >
                         <article class="space-y-4">
                             <img
-                                src="{{ asset($post['image_sm']) }}"
-                                alt="{{ $post['title'] }}"
+                                src="{{ post.ImageSm }}"
+                                alt="{{ post.Title }}"
                                 class="rounded-lg shadow-lg"
                             />
 
                             <h2 class="text-xl font-black font-main">
-                                {{ $post['title'] }}
+                                {{ post.Title }}
                             </h2>
 
-                            <p class="text-lg font-post">{{ $post['intro'] }}</p>
+                            <p class="text-lg font-post">{{ post.Intro }}</p>
                         </article>
 
                         <span class="block text-right font-second tracking-wide">
-                            {{ $post['read_time'] }} minutes read
+                            {{ post.ReadTime }} minutes read
                         </span>
                     </a>
-                @endforeach
+                @end
             </div>
         </div>
     </div>
