@@ -17,7 +17,7 @@
             >
 
             <div class="mt-4 lg:text-lg text-gray-300 prose-p:mb-5 prose-a:underline">
-                {{ series.Description.raw() }}
+                {!! series.Description !!}
             </div>
         </div>
 

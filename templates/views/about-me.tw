@@ -70,7 +70,7 @@
                             </div>
                             <div class="p-3 text-center">
                                 <div class="text-2xl py-4">{{ tech.title }}</div>
-                                <div class="text-lg font-light">{{ tech.content.raw() }}</div>
+                                <div class="text-lg font-light">{!! tech.content !!}</div>
                             </div>
                         </div>
                     @end

@@ -7,7 +7,7 @@ import (
 	"serhii/internal/config"
 	"serhii/internal/database"
 
-	"github.com/textwire/textwire/v4"
+	"github.com/textwire/textwire/v5"
 )
 
 type server struct {

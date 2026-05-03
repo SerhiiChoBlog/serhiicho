@@ -24,7 +24,7 @@
     <div class="container">
         <div class="bg-page max-w-[1100px] mx-auto -translate-y-6 rounded-xl px-3 pt-3">
             <div class="min-h-10">
-                <filters :current-tag='{{ hasValue(tag) ? "%s".format(tag.camel().json()) : 'null' }}'></filters>
+                <filters :current-tag='{{ hasValue(tag) ? tag.camel().json() : 'null' }}'></filters>
             </div>
 
             @if(posts.len() == 0)

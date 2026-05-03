@@ -5,8 +5,8 @@ import (
 	"os"
 
 	"github.com/SerhiiCho/timeago/v3"
-	"github.com/textwire/textwire/v4"
-	"github.com/textwire/textwire/v4/config"
+	"github.com/textwire/textwire/v5"
+	"github.com/textwire/textwire/v5/config"
 )
 
 func newTpl() *textwire.Template {

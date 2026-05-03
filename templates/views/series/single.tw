@@ -41,7 +41,7 @@
                     </div>
 
                     <div class="post-content border-t border-border mt-4 md:mt-6">
-                        {{ series.Description.raw() }}
+                        {!! series.Description !!}
                     </div>
 
                     <div class="text-md mt-5">
