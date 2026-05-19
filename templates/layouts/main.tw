@@ -15,7 +15,9 @@
 <body class="text-font font-main bg-page {{ global.darkThemeCookie }}">
     <main id="main">
         @reserve("content")
+
         @component('~footer')@end
+        <sign-in-modal></sign-in-modal>
     </main>
 
     <script type="text/javascript">

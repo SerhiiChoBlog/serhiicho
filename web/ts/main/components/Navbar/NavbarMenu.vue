@@ -60,7 +60,7 @@ function showLoginModal(): void {
                         :class="[
                             'cursor-pointer flex items-center justify-center',
                             'gap-4 bg-black/20 rounded-full pl-5 hover:bg-black/40',
-                            'transition-colors group'
+                            'transition-colors group',
                         ]"
                     >
                         <div
@@ -83,7 +83,7 @@ function showLoginModal(): void {
                     v-else
                     @click="showLoginModal"
                     type="button"
-                    class="main-btn min-w-[140px] cursor-pointer"
+                    class="main-btn min-w-35 cursor-pointer"
                 >
                     Sign in
                 </button>
