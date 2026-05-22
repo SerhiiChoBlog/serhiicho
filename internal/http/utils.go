@@ -5,6 +5,12 @@ import (
 	"net/http"
 )
 
+type ErrorResponse struct {
+	Error   string `json:"error"`
+	Message string `json:"message"`
+	Status  int    `json:"status"`
+}
+
 func getPostTitleFontSize(title string) string {
 	titleLen := len(title)
 	switch true {
@@ -27,8 +33,18 @@ func getPostTitleFontSize(title string) string {
 	}
 }
 
-func jsonResponse(w http.ResponseWriter, status int, data any) {
+func sendResponse(w http.ResponseWriter, status int, data any) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 	json.NewEncoder(w).Encode(data)
+}
+
+func sendErrorResponse(w http.ResponseWriter, message string, status int) {
+	resp := ErrorResponse{
+		Error:   http.StatusText(status),
+		Message: message,
+		Status:  status,
+	}
+
+	sendResponse(w, status, resp)
 }

@@ -16,6 +16,9 @@ func (s *server) registerRoutes() {
 	s.mux.HandleFunc("GET /projects", s.listProjectsHandler)
 	s.mux.HandleFunc("GET /projects/{name}", s.singleProjectHandler)
 
+	// Auth routes
+	s.mux.HandleFunc("POST /register", s.register)
+
 	// API routes
 	s.mux.HandleFunc("POST /api/post-likes/is-liked", s.postLikesIsLikedHandler)
 }

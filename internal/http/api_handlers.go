@@ -25,7 +25,7 @@ func (s *server) postLikesIsLikedHandler(w http.ResponseWriter, r *http.Request)
 	resp := map[string]any{"liked": false, "likes": likes}
 
 	if req.Secret == "" {
-		jsonResponse(w, 200, resp)
+		sendResponse(w, 200, resp)
 		return
 	}
 
@@ -43,5 +43,5 @@ func (s *server) postLikesIsLikedHandler(w http.ResponseWriter, r *http.Request)
 		log.Fatalln(err)
 	}
 
-	jsonResponse(w, 200, resp)
+	sendResponse(w, 200, resp)
 }
