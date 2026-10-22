@@ -12,4 +12,7 @@ require (
 
 //replace github.com/textwire/textwire/v5 => /home/serhii/www/open/textwire/textwire
 
-require filippo.io/edwards25519 v1.2.0 // indirect
+require (
+	codeberg.org/textwire/textwire/v5 v5.1.4 // indirect
+	filippo.io/edwards25519 v1.2.0 // indirect
+)
