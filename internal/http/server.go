@@ -6,7 +6,7 @@ import (
 	"serhii/internal/config"
 	"serhii/internal/database"
 
-	"codeberg.org/textwire/textwire/v5"
+	"github.com/textwire/textwire/v6"
 )
 
 type server struct {
