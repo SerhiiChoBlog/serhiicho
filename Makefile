@@ -24,7 +24,7 @@ shell:
 
 .PHONY: run
 run:
-	@go run ./cmd/blog
+	@podman-compose exec app go run ./cmd/blog
 
 .PHONY: up
 up:

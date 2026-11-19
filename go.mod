@@ -10,4 +10,6 @@ require (
 	github.com/textwire/textwire/v6 v6.0.0
 )
 
+//replace github.com/textwire/textwire/v6 => /home/serhii/www/github/textwire/textwire
+
 require filippo.io/edwards25519 v1.2.0 // indirect

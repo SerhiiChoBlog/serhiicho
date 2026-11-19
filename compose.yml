@@ -7,7 +7,7 @@ services:
             - '5173:5173'
         volumes:
             - .:/app:z
-            - /home/serhii/www/codeberg/textwire/textwire:/textwire:z
+            - /home/serhii/www/github/textwire/textwire:/textwire:z
             - go-pkg:/go/pkg:z
         depends_on:
             db:
