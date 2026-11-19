@@ -9,6 +9,7 @@ services:
             - .:/app:z
             - /home/serhii/www/github/textwire/textwire:/textwire:z
             - go-pkg:/go/pkg:z
+        stop_grace_period: 1s
         depends_on:
             db:
                 condition: service_healthy
@@ -28,6 +29,7 @@ services:
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
         volumes:
             - serhiicho-db:/var/lib/mysql:z
+        stop_grace_period: 1s
         healthcheck:
             test:
                 - CMD
