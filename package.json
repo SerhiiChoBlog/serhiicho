@@ -38,6 +38,7 @@
         "copy-to-clipboard": "^3.3.3",
         "firebase": "^11.10.0",
         "flatpickr": "^4.6.13",
+        "laravel-echo": "^2.6.1",
         "moment": "^2.30.1",
         "pusher-js": "^8.4.0",
         "smooth-loader": "^1.2.1",
